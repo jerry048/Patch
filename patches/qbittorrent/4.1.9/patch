@@ -1,15 +1,6 @@
 diff -Naur Original/qBittorrent-release-4.1.9/src/base/bittorrent/session.cpp Patch/qBittorrent-release-4.1.9/src/base/bittorrent/session.cpp
 --- Original/qBittorrent-release-4.1.9/src/base/bittorrent/session.cpp	2019-10-27 23:26:04.000000000 +0800
 +++ Patch/qBittorrent-release-4.1.9/src/base/bittorrent/session.cpp	2021-01-24 01:25:54.000000000 +0800
-@@ -422,7 +422,7 @@
-     sessionSettings.stop_tracker_timeout = 1;
-     sessionSettings.auto_scrape_interval = 1200; // 20 minutes
-     sessionSettings.auto_scrape_min_interval = 900; // 15 minutes
--    sessionSettings.connection_speed = 20; // default is 10
-+    sessionSettings.connection_speed = 500; // default is 10
-     sessionSettings.no_connect_privileged_ports = false;
-     // Disk cache pool is rarely tested in libtorrent and doesn't free buffers
-     // Soon to be deprecated there
 @@ -438,6 +438,54 @@
  #else
      const std::string peerId = libt::generate_fingerprint(PEER_ID, QBT_VERSION_MAJOR, QBT_VERSION_MINOR, QBT_VERSION_BUGFIX, QBT_VERSION_BUILD);
