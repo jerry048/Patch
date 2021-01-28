@@ -1,0 +1,87 @@
+diff -Naur /root/Original/qBittorrent-release-4.1.9/src/base/bittorrent/session.cpp /root/New/qBittorrent-release-4.1.9/src/base/bittorrent/session.cpp
+--- /root/Original/qBittorrent-release-4.1.9/src/base/bittorrent/session.cpp	2019-10-27 23:26:04.000000000 +0100
++++ /root/New/qBittorrent-release-4.1.9/src/base/bittorrent/session.cpp	2021-01-28 14:39:14.000000000 +0100
+@@ -422,7 +422,7 @@
+     sessionSettings.stop_tracker_timeout = 1;
+     sessionSettings.auto_scrape_interval = 1200; // 20 minutes
+     sessionSettings.auto_scrape_min_interval = 900; // 15 minutes
+-    sessionSettings.connection_speed = 20; // default is 10
++    sessionSettings.connection_speed = 500; // default is 10
+     sessionSettings.no_connect_privileged_ports = false;
+     // Disk cache pool is rarely tested in libtorrent and doesn't free buffers
+     // Soon to be deprecated there
+@@ -438,6 +438,60 @@
+ #else
+     const std::string peerId = libt::generate_fingerprint(PEER_ID, QBT_VERSION_MAJOR, QBT_VERSION_MINOR, QBT_VERSION_BUGFIX, QBT_VERSION_BUILD);
+     libt::settings_pack pack;
++    pack.set_bool(libt::settings_pack::allow_multiple_connections_per_ip, true);
++    pack.set_bool(libt::settings_pack::use_parole_mode, false);
++    pack.set_bool(libt::settings_pack::low_prio_disk, false);
++    pack.set_bool(libt::settings_pack::guided_read_cache, true);
++    pack.set_bool(libt::settings_pack::strict_end_game_mode, false);
++    pack.set_bool(libt::settings_pack::enable_outgoing_utp, false);
++    pack.set_bool(libt::settings_pack::enable_incoming_utp, false);
++    pack.set_bool(libt::settings_pack::smooth_connects, false);
++    pack.set_bool(libt::settings_pack::use_disk_cache_pool, true);
++    pack.set_bool(libt::settings_pack::enable_upnp, false);
++    pack.set_bool(libt::settings_pack::enable_natpmp, false);
++    pack.set_bool(libt::settings_pack::enable_lsd, false);
++    pack.set_bool(libt::settings_pack::enable_dht, false);
++    pack.set_bool(libt::settings_pack::prefer_rc4, false);
++    pack.set_int(libt::settings_pack::piece_timeout, 5);
++    pack.set_int(libt::settings_pack::request_timeout, 5);
++    pack.set_int(libt::settings_pack::request_queue_time, 5);
++    pack.set_int(libt::settings_pack::max_allowed_in_request_queue, 10000);
++    pack.set_int(libt::settings_pack::max_out_request_queue, 10000);
++    pack.set_int(libt::settings_pack::whole_pieces_threshold, 5);
++    pack.set_int(libt::settings_pack::peer_timeout, 120);
++    pack.set_int(libt::settings_pack::file_pool_size, 5000);
++    pack.set_int(libt::settings_pack::max_failcount, 20);
++    pack.set_int(libt::settings_pack::min_reconnect_time, 2);
++    pack.set_int(libt::settings_pack::peer_connect_timeout, 30);
++    pack.set_int(libt::settings_pack::connection_speed, 500);
++    pack.set_int(libt::settings_pack::inactivity_timeout, 120);
++    pack.set_int(libt::settings_pack::inactivity_timeout, 120);
++    pack.set_int(libt::settings_pack::allowed_fast_set_size, 0);
++    pack.set_int(libt::settings_pack::suggest_mode, settings_pack::suggest_read_cache);
++    pack.set_int(libt::settings_pack::max_queued_disk_bytes, 10485760);
++    pack.set_int(libt::settings_pack::send_buffer_low_watermark, 3145728);
++    pack.set_int(libt::settings_pack::send_buffer_watermark, 10485760);
++    pack.set_int(libt::settings_pack::send_buffer_watermark_factor, 200);
++    pack.set_int(libt::settings_pack::choking_algorithm, settings_pack::fixed_slots_choker);
++    pack.set_int(libt::settings_pack::seed_choking_algorithm, settings_pack::fastest_upload);
++    pack.set_int(libt::settings_pack::cache_size, 196608);
++    pack.set_int(libt::settings_pack::cache_buffer_chunk_size, 256);
++    pack.set_int(libt::settings_pack::cache_expiry, 300);
++    pack.set_int(libt::settings_pack::peer_tos, 0xB8);
++    pack.set_int(libt::settings_pack::active_downloads, -1);
++    pack.set_int(libt::settings_pack::active_seeds, -1);
++    pack.set_int(libt::settings_pack::active_limit, -1);
++    pack.set_int(libt::settings_pack::max_rejects, 100);
++    pack.set_int(libt::settings_pack::read_cache_line_size, 128);
++    pack.set_int(libt::settings_pack::write_cache_line_size, 256);
++    pack.set_int(libt::settings_pack::default_cache_min_age, 10);
++    pack.set_int(libt::settings_pack::tick_interval, 100);
++    pack.set_int(libt::settings_pack::unchoke_slots_limit, -1);
++    pack.set_int(libt::settings_pack::connections_limit, 500000);
++    pack.set_int(libt::settings_pack::mixed_mode_algorithm, settings_pack::prefer_tcp);
++    pack.set_int(libt::settings_pack::listen_queue_size, 3000);
++    pack.set_int(libt::settings_pack::torrent_connect_boost, 100);
++    pack.set_int(libt::settings_pack::predictive_piece_announce, 10);
+     pack.set_int(libt::settings_pack::alert_mask, alertMask);
+     pack.set_str(libt::settings_pack::peer_fingerprint, peerId);
+     pack.set_bool(libt::settings_pack::listen_system_port_fallback, false);
+@@ -451,12 +505,11 @@
+     pack.set_int(libt::settings_pack::stop_tracker_timeout, 1);
+     pack.set_int(libt::settings_pack::auto_scrape_interval, 1200); // 20 minutes
+     pack.set_int(libt::settings_pack::auto_scrape_min_interval, 900); // 15 minutes
+-    pack.set_int(libt::settings_pack::connection_speed, 20); // default is 10
+     pack.set_bool(libt::settings_pack::no_connect_privileged_ports, false);
+     // Disk cache pool is rarely tested in libtorrent and doesn't free buffers
+     // Soon to be deprecated there
+     // More info: https://github.com/arvidn/libtorrent/issues/2251
+-    pack.set_bool(libt::settings_pack::use_disk_cache_pool, false);
++    pack.set_bool(libt::settings_pack::use_disk_cache_pool, true);
+     // libtorrent 1.1 enables UPnP & NAT-PMP by default
+     // turn them off before `libt::session` ctor to avoid split second effects
+     pack.set_bool(libt::settings_pack::enable_upnp, false);
