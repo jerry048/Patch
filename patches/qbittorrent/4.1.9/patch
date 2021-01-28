@@ -1,6 +1,5 @@
---- /root/Original/qBittorrent-release-4.1.9/src/base/bittorrent/session.cpp	2019-10-27 23:26:04.000000000 +0100
-+++ /root/New/qBittorrent-release-4.1.9/src/base/bittorrent/session.cpp	2021-01-28 22:17:06.000000000 +0100
-@@ -438,6 +438,60 @@
+--- a/src/base/bittorrent/session.cpp
++++ b/src/base/bittorrent/session.cpp
  #else
      const std::string peerId = libt::generate_fingerprint(PEER_ID, QBT_VERSION_MAJOR, QBT_VERSION_MINOR, QBT_VERSION_BUGFIX, QBT_VERSION_BUILD);
      libt::settings_pack pack;
