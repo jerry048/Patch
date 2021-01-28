@@ -43,7 +43,6 @@
 +    pack.set_int(libt::settings_pack::cache_size, 196608);
 +    pack.set_int(libt::settings_pack::cache_buffer_chunk_size, 256);
 +    pack.set_int(libt::settings_pack::cache_expiry, 300);
-+    pack.set_int(libt::settings_pack::peer_tos, 0xB8);
 +    pack.set_int(libt::settings_pack::active_downloads, -1);
 +    pack.set_int(libt::settings_pack::active_seeds, -1);
 +    pack.set_int(libt::settings_pack::active_limit, -1);
