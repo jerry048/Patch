@@ -1,15 +1,6 @@
 diff -Naur /root/Original/qBittorrent-release-4.1.9/src/base/bittorrent/session.cpp /root/New/qBittorrent-release-4.1.9/src/base/bittorrent/session.cpp
 --- /root/Original/qBittorrent-release-4.1.9/src/base/bittorrent/session.cpp	2019-10-27 23:26:04.000000000 +0100
 +++ /root/New/qBittorrent-release-4.1.9/src/base/bittorrent/session.cpp	2021-01-28 14:39:14.000000000 +0100
-@@ -422,7 +422,7 @@
-     sessionSettings.stop_tracker_timeout = 1;
-     sessionSettings.auto_scrape_interval = 1200; // 20 minutes
-     sessionSettings.auto_scrape_min_interval = 900; // 15 minutes
--    sessionSettings.connection_speed = 20; // default is 10
-+    sessionSettings.connection_speed = 500; // default is 10
-     sessionSettings.no_connect_privileged_ports = false;
-     // Disk cache pool is rarely tested in libtorrent and doesn't free buffers
-     // Soon to be deprecated there
 @@ -438,6 +438,60 @@
  #else
      const std::string peerId = libt::generate_fingerprint(PEER_ID, QBT_VERSION_MAJOR, QBT_VERSION_MINOR, QBT_VERSION_BUGFIX, QBT_VERSION_BUILD);
@@ -23,8 +14,6 @@ diff -Naur /root/Original/qBittorrent-release-4.1.9/src/base/bittorrent/session.
 +    pack.set_bool(libt::settings_pack::enable_incoming_utp, false);
 +    pack.set_bool(libt::settings_pack::smooth_connects, false);
 +    pack.set_bool(libt::settings_pack::use_disk_cache_pool, true);
-+    pack.set_bool(libt::settings_pack::enable_upnp, false);
-+    pack.set_bool(libt::settings_pack::enable_natpmp, false);
 +    pack.set_bool(libt::settings_pack::enable_lsd, false);
 +    pack.set_bool(libt::settings_pack::enable_dht, false);
 +    pack.set_bool(libt::settings_pack::prefer_rc4, false);
@@ -40,7 +29,6 @@ diff -Naur /root/Original/qBittorrent-release-4.1.9/src/base/bittorrent/session.
 +    pack.set_int(libt::settings_pack::min_reconnect_time, 2);
 +    pack.set_int(libt::settings_pack::peer_connect_timeout, 30);
 +    pack.set_int(libt::settings_pack::connection_speed, 500);
-+    pack.set_int(libt::settings_pack::inactivity_timeout, 120);
 +    pack.set_int(libt::settings_pack::inactivity_timeout, 120);
 +    pack.set_int(libt::settings_pack::allowed_fast_set_size, 0);
 +    pack.set_int(libt::settings_pack::suggest_mode, settings_pack::suggest_read_cache);
@@ -81,7 +69,6 @@ diff -Naur /root/Original/qBittorrent-release-4.1.9/src/base/bittorrent/session.
      // Soon to be deprecated there
      // More info: https://github.com/arvidn/libtorrent/issues/2251
 -    pack.set_bool(libt::settings_pack::use_disk_cache_pool, false);
-+    pack.set_bool(libt::settings_pack::use_disk_cache_pool, true);
      // libtorrent 1.1 enables UPnP & NAT-PMP by default
      // turn them off before `libt::session` ctor to avoid split second effects
      pack.set_bool(libt::settings_pack::enable_upnp, false);
