@@ -1,6 +1,6 @@
 diff -Naur Original/qBittorrent-release-4.3.3/src/base/bittorrent/session.cpp New/qBittorrent-release-4.3.3/src/base/bittorrent/session.cpp
---- Original/qBittorrent-release-4.3.3/src/base/bittorrent/session.cpp	2021-01-19 06:47:04.000000000 +0100
-+++ New/qBittorrent-release-4.3.3/src/base/bittorrent/session.cpp	2021-01-29 10:49:18.000000000 +0100
+--- a/src/base/bittorrent/session.cpp
++++ b/src/base/bittorrent/session.cpp
 @@ -334,37 +334,37 @@
  
  Session::Session(QObject *parent)
@@ -56,9 +56,12 @@ diff -Naur Original/qBittorrent-release-4.3.3/src/base/bittorrent/session.cpp Ne
      , m_ignoreSlowTorrentsForQueueing(BITTORRENT_SESSION_KEY("IgnoreSlowTorrentsForQueueing"), false)
      , m_downloadRateForSlowTorrents(BITTORRENT_SESSION_KEY("SlowTorrentsDownloadRate"), 2)
      , m_uploadRateForSlowTorrents(BITTORRENT_SESSION_KEY("SlowTorrentsUploadRate"), 2)
-@@ -377,17 +377,17 @@
+@@ -375,19 +375,19 @@
+     , m_ignoreLimitsOnLAN(BITTORRENT_SESSION_KEY("IgnoreLimitsOnLAN"), false)
+     , m_includeOverheadInLimits(BITTORRENT_SESSION_KEY("IncludeOverheadInLimits"), false)
      , m_announceIP(BITTORRENT_SESSION_KEY("AnnounceIP"))
-     , m_maxConcurrentHTTPAnnounces(BITTORRENT_SESSION_KEY("MaxConcurrentHTTPAnnounces"), 50)
+-    , m_maxConcurrentHTTPAnnounces(BITTORRENT_SESSION_KEY("MaxConcurrentHTTPAnnounces"), 50)
++    , m_maxConcurrentHTTPAnnounces(BITTORRENT_SESSION_KEY("MaxConcurrentHTTPAnnounces"), 75)
      , m_stopTrackerTimeout(BITTORRENT_SESSION_KEY("StopTrackerTimeout"), 5)
 -    , m_maxConnections(BITTORRENT_SESSION_KEY("MaxConnections"), 500, lowerLimited(0, -1))
 -    , m_maxUploads(BITTORRENT_SESSION_KEY("MaxUploads"), 20, lowerLimited(0, -1))
@@ -80,9 +83,27 @@ diff -Naur Original/qBittorrent-release-4.3.3/src/base/bittorrent/session.cpp Ne
      , m_validateHTTPSTrackerCertificate(BITTORRENT_SESSION_KEY("ValidateHTTPSTrackerCertificate"), false)
      , m_blockPeersOnPrivilegedPorts(BITTORRENT_SESSION_KEY("BlockPeersOnPrivilegedPorts"), false)
      , m_isAddTrackersEnabled(BITTORRENT_SESSION_KEY("AddTrackersEnabled"), false)
+@@ -455,7 +455,7 @@
+     , m_networkManager {new QNetworkConfigurationManager {this}}
+ {
+     if (port() < 0)
+-        m_port = Utils::Random::rand(1024, 65535);
++        m_port = Utils::Random::rand(15000, 65535);
+ 
+     initResumeFolder();
+ 
+@@ -1211,7 +1211,7 @@
+ 
+     // The most secure, rc4 only so that all streams are encrypted
+     settingsPack.set_int(lt::settings_pack::allowed_enc_level, lt::settings_pack::pe_rc4);
+-    settingsPack.set_bool(lt::settings_pack::prefer_rc4, true);
++    settingsPack.set_bool(lt::settings_pack::prefer_rc4, false);
+     switch (encryption())
+     {
+     case 0: // Enabled
 diff -Naur Original/qBittorrent-release-4.3.3/src/base/preferences.cpp New/qBittorrent-release-4.3.3/src/base/preferences.cpp
---- Original/qBittorrent-release-4.3.3/src/base/preferences.cpp	2021-01-19 06:47:04.000000000 +0100
-+++ New/qBittorrent-release-4.3.3/src/base/preferences.cpp	2021-01-29 10:49:54.000000000 +0100
+--- a/src/base/preferences.cpp
++++ b/src/base/preferences.cpp
 @@ -124,7 +124,7 @@
  
  bool Preferences::deleteTorrentFilesAsDefault() const
