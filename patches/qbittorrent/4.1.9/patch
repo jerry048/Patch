@@ -1,6 +1,6 @@
 diff -Naur Original/qBittorrent-release-4.1.9/src/base/bittorrent/session.cpp New/qBittorrent-release-4.1.9/src/base/bittorrent/session.cpp
---- Original/qBittorrent-release-4.1.9/src/base/bittorrent/session.cpp	2019-10-27 23:26:04.000000000 +0100
-+++ New/qBittorrent-release-4.1.9/src/base/bittorrent/session.cpp	2021-01-29 09:55:50.000000000 +0100
+--- a/src/base/bittorrent/session.cpp	2019-10-27 23:26:04.000000000 +0100
++++ b/src/base/bittorrent/session.cpp	2021-01-29 09:55:50.000000000 +0100
 @@ -268,18 +268,18 @@
  #if LIBTORRENT_VERSION_NUM >= 10100
      , m_listenInterfaceChanged(true)
@@ -133,8 +133,8 @@ diff -Naur Original/qBittorrent-release-4.1.9/src/base/bittorrent/session.cpp Ne
          return randomPort;
      return m_port;
 diff -Naur Original/qBittorrent-release-4.1.9/src/base/preferences.cpp New/qBittorrent-release-4.1.9/src/base/preferences.cpp
---- Original/qBittorrent-release-4.1.9/src/base/preferences.cpp	2019-10-27 23:26:04.000000000 +0100
-+++ New/qBittorrent-release-4.1.9/src/base/preferences.cpp	2021-01-29 10:13:28.000000000 +0100
+--- a/src/base/preferences.cpp	2019-10-27 23:26:04.000000000 +0100
++++ b/src/base/preferences.cpp	2021-01-29 10:13:28.000000000 +0100
 @@ -103,7 +103,7 @@
  
  bool Preferences::deleteTorrentFilesAsDefault() const
