@@ -1,6 +1,6 @@
 diff -Naur Original/qBittorrent-release-4.3.3/src/base/bittorrent/session.cpp New/qBittorrent-release-4.3.3/src/base/bittorrent/session.cpp
---- a/src/base/bittorrent/session.cpp
-+++ b/src/base/bittorrent/session.cpp
+--- Original/qBittorrent-release-4.3.3/src/base/bittorrent/session.cpp	2021-01-19 06:47:04.000000000 +0100
++++ New/qBittorrent-release-4.3.3/src/base/bittorrent/session.cpp	2021-01-29 10:49:18.000000000 +0100
 @@ -334,37 +334,37 @@
  
  Session::Session(QObject *parent)
