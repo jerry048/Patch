@@ -1,8 +1,8 @@
-diff -Naur Original/libtorrent-1.2.12/src/settings_pack.cpp New/libtorrent-1.2.12/src/settings_pack.cpp
+diff -Naur Original/libtorrent-2.0.2/src/settings_pack.cpp New/libtorrent-2.0.2/src/settings_pack.cpp
 --- a/src/settings_pack.cpp	
-+++ b/src/settings_pack.cpp	
-@@ -130,13 +130,13 @@
- 
++++ b/src/settings_pack.cpp
+@@ -137,13 +137,13 @@
+ 	CONSTEXPR_SETTINGS
  	aux::array<bool_setting_entry_t, settings_pack::num_bool_settings> const bool_settings
  	({{
 -		SET(allow_multiple_connections_per_ip, false, nullptr),
@@ -14,10 +14,10 @@ diff -Naur Original/libtorrent-1.2.12/src/settings_pack.cpp New/libtorrent-1.2.1
  		SET(upnp_ignore_nonrouters, false, nullptr),
 -		SET(use_parole_mode, true, nullptr),
 +		SET(use_parole_mode, false, nullptr),
- 		SET(use_read_cache, true, nullptr),
+ 		DEPRECATED_SET(use_read_cache, true, nullptr),
  		DEPRECATED_SET(use_write_cache, true, nullptr),
  		DEPRECATED_SET(dont_flush_write_cache, false, nullptr),
-@@ -169,10 +169,10 @@
+@@ -167,10 +167,10 @@
  		SET(no_atime_storage, true, nullptr),
  		SET(incoming_starts_queued_torrents, false, nullptr),
  		SET(report_true_downloaded, false, nullptr),
@@ -31,7 +31,7 @@ diff -Naur Original/libtorrent-1.2.12/src/settings_pack.cpp New/libtorrent-1.2.1
  		SET(enable_outgoing_tcp, true, nullptr),
  		SET(enable_incoming_tcp, true, nullptr),
  		SET(ignore_resume_timestamps, false, nullptr),
-@@ -183,7 +183,7 @@
+@@ -181,7 +181,7 @@
  		DEPRECATED_SET(announce_double_nat, false, nullptr),
  		SET(seeding_outgoing_connections, true, nullptr),
  		SET(no_connect_privileged_ports, false, &session_impl::update_privileged_ports),
@@ -40,7 +40,7 @@ diff -Naur Original/libtorrent-1.2.12/src/settings_pack.cpp New/libtorrent-1.2.1
  		SET(always_send_user_agent, false, nullptr),
  		SET(apply_ip_filter_to_trackers, true, nullptr),
  		DEPRECATED_SET(use_disk_read_ahead, true, nullptr),
-@@ -198,10 +198,10 @@
+@@ -196,10 +196,10 @@
  		SET(listen_system_port_fallback, true, nullptr),
  		DEPRECATED_SET(use_disk_cache_pool, false, nullptr),
  		SET(announce_crypto_support, true, nullptr),
@@ -55,16 +55,7 @@ diff -Naur Original/libtorrent-1.2.12/src/settings_pack.cpp New/libtorrent-1.2.1
  		SET(prefer_rc4, false, nullptr),
  		SET(proxy_hostnames, true, nullptr),
  		SET(proxy_peer_connections, true, nullptr),
-@@ -209,7 +209,7 @@
- 		SET(proxy_tracker_connections, true, nullptr),
- 		SET(enable_ip_notifier, true, &session_impl::update_ip_notifier),
- 		SET(dht_prefer_verified_node_ids, true, &session_impl::update_dht_settings),
--		SET(piece_extent_affinity, false, nullptr),
-+		SET(piece_extent_affinity, true, nullptr),
- 		SET(validate_https_trackers, true, &session_impl::update_validate_https),
- 		SET(ssrf_mitigation, true, nullptr),
- 		SET(allow_idna, false, nullptr),
-@@ -221,50 +221,50 @@
+@@ -229,35 +229,35 @@
  		SET(tracker_receive_timeout, 10, nullptr),
  		SET(stop_tracker_timeout, 5, nullptr),
  		SET(tracker_maximum_response_length, 1024*1024, nullptr),
@@ -77,7 +68,7 @@ diff -Naur Original/libtorrent-1.2.12/src/settings_pack.cpp New/libtorrent-1.2.1
 +		SET(piece_timeout, 5, nullptr),
 +		SET(request_timeout, 5, nullptr),
 +		SET(request_queue_time, 5, nullptr),
-+		SET(max_allowed_in_request_queue, 100000, nullptr),
++		SET(max_allowed_in_request_queue, 10000, nullptr),
 +		SET(max_out_request_queue, 10000, nullptr),
 +		SET(whole_pieces_threshold, 5, nullptr),
  		SET(peer_timeout, 120, nullptr),
@@ -102,7 +93,7 @@ diff -Naur Original/libtorrent-1.2.12/src/settings_pack.cpp New/libtorrent-1.2.1
 -		SET(initial_picker_threshold, 4, nullptr),
 -		SET(allowed_fast_set_size, 5, nullptr),
 -		SET(suggest_mode, settings_pack::no_piece_suggestions, nullptr),
--		SET(max_queued_disk_bytes, 1024 * 1024, &session_impl::update_queued_disk_bytes),
+-		SET(max_queued_disk_bytes, 1024 * 1024, nullptr),
 -		SET(handshake_timeout, 10, nullptr),
 -		SET(send_buffer_low_watermark, 10 * 1024, nullptr),
 -		SET(send_buffer_watermark, 500 * 1024, nullptr),
@@ -110,19 +101,18 @@ diff -Naur Original/libtorrent-1.2.12/src/settings_pack.cpp New/libtorrent-1.2.1
 +		SET(initial_picker_threshold, 10, nullptr),
 +		SET(allowed_fast_set_size, 0, nullptr),
 +		SET(suggest_mode, settings_pack::suggest_read_cache, nullptr),
-+		SET(max_queued_disk_bytes, 10485760, &session_impl::update_queued_disk_bytes),
++		SET(max_queued_disk_bytes, 10485760, nullptr),
 +		SET(handshake_timeout, 30, nullptr),
 +		SET(send_buffer_low_watermark, 3145728, nullptr),
 +		SET(send_buffer_watermark, 10485760, nullptr),
 +		SET(send_buffer_watermark_factor, 200, nullptr),
  		SET(choking_algorithm, settings_pack::fixed_slots_choker, nullptr),
 -		SET(seed_choking_algorithm, settings_pack::round_robin, nullptr),
--		SET(cache_size, 2048, nullptr),
 +		SET(seed_choking_algorithm, settings_pack::fastest_upload, nullptr),
-+		SET(cache_size, 196608, nullptr),
+ 		DEPRECATED_SET(cache_size, 2048, nullptr),
  		DEPRECATED_SET(cache_buffer_chunk_size, 0, nullptr),
- 		SET(cache_expiry, 300, nullptr),
- 		SET(disk_io_write_mode, settings_pack::enable_os_cache, nullptr),
+ 		DEPRECATED_SET(cache_expiry, 300, nullptr),
+@@ -265,14 +265,14 @@
  		SET(disk_io_read_mode, settings_pack::enable_os_cache, nullptr),
  		SET(outgoing_port, 0, nullptr),
  		SET(num_outgoing_ports, 0, nullptr),
@@ -142,7 +132,7 @@ diff -Naur Original/libtorrent-1.2.12/src/settings_pack.cpp New/libtorrent-1.2.1
  		DEPRECATED_SET(active_loaded_limit, 0, &session_impl::trigger_auto_manage),
  		SET(auto_manage_interval, 30, nullptr),
  		SET(seed_time_limit, 24 * 60 * 60, nullptr),
-@@ -276,15 +276,15 @@
+@@ -284,15 +284,15 @@
  		SET(auto_manage_startup, 60, nullptr),
  		SET(seeding_piece_quota, 20, nullptr),
  		// TODO: deprecate this
@@ -159,11 +149,11 @@ diff -Naur Original/libtorrent-1.2.12/src/settings_pack.cpp New/libtorrent-1.2.1
 +		SET(write_cache_line_size, 256, nullptr),
  		SET(optimistic_disk_retry, 10 * 60, nullptr),
 -		SET(max_suggest_pieces, 16, nullptr),
-+		SET(max_suggest_pieces, 8, nullptr),
++		SET(max_suggest_pieces, 10, nullptr),
  		SET(local_service_announce_interval, 5 * 60, nullptr),
  		SET(dht_announce_interval, 15 * 60, &session_impl::update_dht_announce_interval),
  		SET(udp_tracker_token_expiry, 60, nullptr),
-@@ -294,16 +294,16 @@
+@@ -302,16 +302,16 @@
  		SET(increase_est_reciprocation_rate, 20, nullptr),
  		SET(decrease_est_reciprocation_rate, 3, nullptr),
  		SET(max_pex_peers, 50, nullptr),
@@ -183,7 +173,7 @@ diff -Naur Original/libtorrent-1.2.12/src/settings_pack.cpp New/libtorrent-1.2.1
  		SET(connections_slack, 10, nullptr),
  		SET(utp_target_delay, 100, nullptr),
  		SET(utp_gain_factor, 3000, nullptr),
-@@ -314,14 +314,14 @@
+@@ -322,15 +322,15 @@
  		SET(utp_connect_timeout, 3000, nullptr),
  		SET(utp_delayed_ack, 0, nullptr),
  		SET(utp_loss_multiplier, 50, nullptr),
@@ -193,21 +183,25 @@ diff -Naur Original/libtorrent-1.2.12/src/settings_pack.cpp New/libtorrent-1.2.1
 +		SET(mixed_mode_algorithm, settings_pack::prefer_tcp, nullptr),
 +		SET(listen_queue_size, 3000, nullptr),
 +		SET(torrent_connect_boost, 100, nullptr),
- 		SET(alert_queue_size, 1000, &session_impl::update_alert_queue_size),
+ 		SET(alert_queue_size, 2000, &session_impl::update_alert_queue_size),
  		SET(max_metadata_size, 3 * 1024 * 10240, nullptr),
- 		DEPRECATED_SET(hashing_threads, 1, nullptr),
- 		SET(checking_mem_usage, 1024, nullptr),
+-		SET(hashing_threads, 2, &session_impl::update_disk_threads),
+-		SET(checking_mem_usage, 256, nullptr),
 -		SET(predictive_piece_announce, 0, nullptr),
+-		SET(aio_threads, 10, &session_impl::update_disk_threads),
++		SET(hashing_threads, 4, &session_impl::update_disk_threads),
++		SET(checking_mem_usage, 1024, nullptr),
 +		SET(predictive_piece_announce, 10, nullptr),
- 		SET(aio_threads, 4, &session_impl::update_disk_threads),
++		SET(aio_threads, 4, &session_impl::update_disk_threads),
  		DEPRECATED_SET(aio_max, 300, nullptr),
  		DEPRECATED_SET(network_threads, 0, nullptr),
-@@ -354,7 +354,7 @@
+ 		DEPRECATED_SET(ssl_listen, 0, &session_impl::update_ssl_listen),
+@@ -362,7 +362,7 @@
  		SET(send_not_sent_low_watermark, 16384, nullptr),
  		SET(rate_choker_initial_threshold, 1024, nullptr),
  		SET(upnp_lease_duration, 3600, nullptr),
 -		SET(max_concurrent_http_announces, 50, nullptr),
 +		SET(max_concurrent_http_announces, 75, nullptr),
- 	}});
- 
- #undef SET
+ 		SET(dht_max_peers_reply, 100, nullptr),
+ 		SET(dht_search_branching, 5, nullptr),
+ 		SET(dht_max_fail_count, 20, nullptr),
