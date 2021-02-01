@@ -34,13 +34,11 @@ diff -Naur Original/qBittorrent-release-4.3.3/src/base/bittorrent/session.cpp Ne
  #else
      , m_coalesceReadWriteEnabled(BITTORRENT_SESSION_KEY("CoalesceReadWrite"), false)
  #endif
--    , m_usePieceExtentAffinity(BITTORRENT_SESSION_KEY("PieceExtentAffinity"), false)
 -    , m_isSuggestMode(BITTORRENT_SESSION_KEY("SuggestMode"), false)
 -    , m_sendBufferWatermark(BITTORRENT_SESSION_KEY("SendBufferWatermark"), 500)
 -    , m_sendBufferLowWatermark(BITTORRENT_SESSION_KEY("SendBufferLowWatermark"), 10)
 -    , m_sendBufferWatermarkFactor(BITTORRENT_SESSION_KEY("SendBufferWatermarkFactor"), 50)
 -    , m_socketBacklogSize(BITTORRENT_SESSION_KEY("SocketBacklogSize"), 30)
-+    , m_usePieceExtentAffinity(BITTORRENT_SESSION_KEY("PieceExtentAffinity"), true)
 +    , m_isSuggestMode(BITTORRENT_SESSION_KEY("SuggestMode"), true)
 +    , m_sendBufferWatermark(BITTORRENT_SESSION_KEY("SendBufferWatermark"), 10240)
 +    , m_sendBufferLowWatermark(BITTORRENT_SESSION_KEY("SendBufferLowWatermark"), 3072)
