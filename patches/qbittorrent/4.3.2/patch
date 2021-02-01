@@ -107,8 +107,8 @@ diff -Naur Original/qBittorrent-release-4.3.3/src/base/bittorrent/session.cpp Ne
      {
      case 0: // Enabled
 diff -Naur Original/qBittorrent-release-4.3.3/src/base/preferences.cpp New/qBittorrent-release-4.3.3/src/base/preferences.cpp
---- Original/qBittorrent-release-4.3.3/src/base/preferences.cpp	2021-01-19 06:47:04.000000000 +0000
-+++ New/qBittorrent-release-4.3.3/src/base/preferences.cpp	2021-01-29 10:49:54.000000000 +0000
+--- a/src/base/preferences.cpp	2021-01-19 06:47:04.000000000 +0000
++++ b/src/base/preferences.cpp	2021-01-29 10:49:54.000000000 +0000
 @@ -124,7 +124,7 @@
  
  bool Preferences::deleteTorrentFilesAsDefault() const
