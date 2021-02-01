@@ -1,7 +1,7 @@
 diff -Naur Original/qBittorrent-release-4.3.3/src/base/bittorrent/session.cpp New/qBittorrent-release-4.3.3/src/base/bittorrent/session.cpp
---- a/src/base/bittorrent/session.cpp	2021-01-19 06:47:04.000000000 +0000
-+++ b/src/base/bittorrent/session.cpp	2021-02-01 14:44:08.000000000 +0000
-@@ -334,37 +334,37 @@
+--- a/src/base/bittorrent/session.cpp	
++++ b/src/base/bittorrent/session.cpp
+@@ -334,20 +334,20 @@
  
  Session::Session(QObject *parent)
      : QObject(parent)
@@ -31,9 +31,10 @@ diff -Naur Original/qBittorrent-release-4.3.3/src/base/bittorrent/session.cpp Ne
      , m_useOSCache(BITTORRENT_SESSION_KEY("UseOSCache"), true)
  #ifdef Q_OS_WIN
      , m_coalesceReadWriteEnabled(BITTORRENT_SESSION_KEY("CoalesceReadWrite"), true)
- #else
+@@ -355,16 +355,16 @@
      , m_coalesceReadWriteEnabled(BITTORRENT_SESSION_KEY("CoalesceReadWrite"), false)
  #endif
+     , m_usePieceExtentAffinity(BITTORRENT_SESSION_KEY("PieceExtentAffinity"), false)
 -    , m_isSuggestMode(BITTORRENT_SESSION_KEY("SuggestMode"), false)
 -    , m_sendBufferWatermark(BITTORRENT_SESSION_KEY("SendBufferWatermark"), 500)
 -    , m_sendBufferLowWatermark(BITTORRENT_SESSION_KEY("SendBufferLowWatermark"), 10)
@@ -105,8 +106,8 @@ diff -Naur Original/qBittorrent-release-4.3.3/src/base/bittorrent/session.cpp Ne
      {
      case 0: // Enabled
 diff -Naur Original/qBittorrent-release-4.3.3/src/base/preferences.cpp New/qBittorrent-release-4.3.3/src/base/preferences.cpp
---- a/src/base/preferences.cpp	2021-01-19 06:47:04.000000000 +0000
-+++ b/src/base/preferences.cpp	2021-01-29 10:49:54.000000000 +0000
+--- a/src/base/preferences.cpp
++++ b/src/base/preferences.cpp
 @@ -124,7 +124,7 @@
  
  bool Preferences::deleteTorrentFilesAsDefault() const
