@@ -1,0 +1,101 @@
+diff -Naur /root/qBittorrent/4.3.4.1/Original/qBittorrent-release-4.3.4.1/src/base/bittorrent/session.cpp /root/qBittorrent/4.3.4.1/New/qBittorrent-release-4.3.4.1/src/base/bittorrent/session.cpp
+--- a/src/base/bittorrent/session.cpp	
++++ b/src/base/bittorrent/session.cpp
+@@ -347,20 +347,20 @@
+ 
+ Session::Session(QObject *parent)
+     : QObject(parent)
+-    , m_isDHTEnabled(BITTORRENT_SESSION_KEY("DHTEnabled"), true)
+-    , m_isLSDEnabled(BITTORRENT_SESSION_KEY("LSDEnabled"), true)
+-    , m_isPeXEnabled(BITTORRENT_SESSION_KEY("PeXEnabled"), true)
++    , m_isDHTEnabled(BITTORRENT_SESSION_KEY("DHTEnabled"), false)
++    , m_isLSDEnabled(BITTORRENT_SESSION_KEY("LSDEnabled"), false)
++    , m_isPeXEnabled(BITTORRENT_SESSION_KEY("PeXEnabled"), false)
+     , m_isIPFilteringEnabled(BITTORRENT_SESSION_KEY("IPFilteringEnabled"), false)
+     , m_isTrackerFilteringEnabled(BITTORRENT_SESSION_KEY("TrackerFilteringEnabled"), false)
+     , m_IPFilterFile(BITTORRENT_SESSION_KEY("IPFilter"))
+-    , m_announceToAllTrackers(BITTORRENT_SESSION_KEY("AnnounceToAllTrackers"), false)
++    , m_announceToAllTrackers(BITTORRENT_SESSION_KEY("AnnounceToAllTrackers"), true)
+     , m_announceToAllTiers(BITTORRENT_SESSION_KEY("AnnounceToAllTiers"), true)
+-    , m_asyncIOThreads(BITTORRENT_SESSION_KEY("AsyncIOThreadsCount"), 10)
++    , m_asyncIOThreads(BITTORRENT_SESSION_KEY("AsyncIOThreadsCount"), 4)
+     , m_hashingThreads(BITTORRENT_SESSION_KEY("HashingThreadsCount"), 2)
+-    , m_filePoolSize(BITTORRENT_SESSION_KEY("FilePoolSize"), 40)
+-    , m_checkingMemUsage(BITTORRENT_SESSION_KEY("CheckingMemUsageSize"), 32)
+-    , m_diskCacheSize(BITTORRENT_SESSION_KEY("DiskCacheSize"), -1)
+-    , m_diskCacheTTL(BITTORRENT_SESSION_KEY("DiskCacheTTL"), 60)
++    , m_filePoolSize(BITTORRENT_SESSION_KEY("FilePoolSize"), 5000)
++    , m_checkingMemUsage(BITTORRENT_SESSION_KEY("CheckingMemUsageSize"), 128)
++    , m_diskCacheSize(BITTORRENT_SESSION_KEY("DiskCacheSize"), 3072)
++    , m_diskCacheTTL(BITTORRENT_SESSION_KEY("DiskCacheTTL"), 300)
+     , m_useOSCache(BITTORRENT_SESSION_KEY("UseOSCache"), true)
+ #ifdef Q_OS_WIN
+     , m_coalesceReadWriteEnabled(BITTORRENT_SESSION_KEY("CoalesceReadWrite"), true)
+@@ -368,40 +368,40 @@
+     , m_coalesceReadWriteEnabled(BITTORRENT_SESSION_KEY("CoalesceReadWrite"), false)
+ #endif
+     , m_usePieceExtentAffinity(BITTORRENT_SESSION_KEY("PieceExtentAffinity"), false)
+-    , m_isSuggestMode(BITTORRENT_SESSION_KEY("SuggestMode"), false)
+-    , m_sendBufferWatermark(BITTORRENT_SESSION_KEY("SendBufferWatermark"), 500)
+-    , m_sendBufferLowWatermark(BITTORRENT_SESSION_KEY("SendBufferLowWatermark"), 10)
+-    , m_sendBufferWatermarkFactor(BITTORRENT_SESSION_KEY("SendBufferWatermarkFactor"), 50)
+-    , m_socketBacklogSize(BITTORRENT_SESSION_KEY("SocketBacklogSize"), 30)
++    , m_isSuggestMode(BITTORRENT_SESSION_KEY("SuggestMode"), true)
++    , m_sendBufferWatermark(BITTORRENT_SESSION_KEY("SendBufferWatermark"), 10240)
++    , m_sendBufferLowWatermark(BITTORRENT_SESSION_KEY("SendBufferLowWatermark"), 3072)
++    , m_sendBufferWatermarkFactor(BITTORRENT_SESSION_KEY("SendBufferWatermarkFactor"), 200)
++    , m_socketBacklogSize(BITTORRENT_SESSION_KEY("SocketBacklogSize"), 3000)
+     , m_isAnonymousModeEnabled(BITTORRENT_SESSION_KEY("AnonymousModeEnabled"), false)
+     , m_isQueueingEnabled(BITTORRENT_SESSION_KEY("QueueingSystemEnabled"), false)
+-    , m_maxActiveDownloads(BITTORRENT_SESSION_KEY("MaxActiveDownloads"), 3, lowerLimited(-1))
+-    , m_maxActiveUploads(BITTORRENT_SESSION_KEY("MaxActiveUploads"), 3, lowerLimited(-1))
+-    , m_maxActiveTorrents(BITTORRENT_SESSION_KEY("MaxActiveTorrents"), 5, lowerLimited(-1))
+-    , m_ignoreSlowTorrentsForQueueing(BITTORRENT_SESSION_KEY("IgnoreSlowTorrentsForQueueing"), false)
++    , m_maxActiveDownloads(BITTORRENT_SESSION_KEY("MaxActiveDownloads"), -1, lowerLimited(-1))
++    , m_maxActiveUploads(BITTORRENT_SESSION_KEY("MaxActiveUploads"), -1, lowerLimited(-1))
++    , m_maxActiveTorrents(BITTORRENT_SESSION_KEY("MaxActiveTorrents"), -1, lowerLimited(-1))
++    , m_ignoreSlowTorrentsForQueueing(BITTORRENT_SESSION_KEY("IgnoreSlowTorrentsForQueueing"), true)
+     , m_downloadRateForSlowTorrents(BITTORRENT_SESSION_KEY("SlowTorrentsDownloadRate"), 2)
+     , m_uploadRateForSlowTorrents(BITTORRENT_SESSION_KEY("SlowTorrentsUploadRate"), 2)
+     , m_slowTorrentsInactivityTimer(BITTORRENT_SESSION_KEY("SlowTorrentsInactivityTimer"), 60)
+     , m_outgoingPortsMin(BITTORRENT_SESSION_KEY("OutgoingPortsMin"), 0)
+     , m_outgoingPortsMax(BITTORRENT_SESSION_KEY("OutgoingPortsMax"), 0)
+     , m_UPnPLeaseDuration(BITTORRENT_SESSION_KEY("UPnPLeaseDuration"), 0)
+-    , m_peerToS(BITTORRENT_SESSION_KEY("PeerToS"), 0x20)
+-    , m_ignoreLimitsOnLAN(BITTORRENT_SESSION_KEY("IgnoreLimitsOnLAN"), false)
++    , m_peerToS(BITTORRENT_SESSION_KEY("PeerToS"), 0xB8)
++    , m_ignoreLimitsOnLAN(BITTORRENT_SESSION_KEY("IgnoreLimitsOnLAN"), true)
+     , m_includeOverheadInLimits(BITTORRENT_SESSION_KEY("IncludeOverheadInLimits"), false)
+     , m_announceIP(BITTORRENT_SESSION_KEY("AnnounceIP"))
+-    , m_maxConcurrentHTTPAnnounces(BITTORRENT_SESSION_KEY("MaxConcurrentHTTPAnnounces"), 50)
++    , m_maxConcurrentHTTPAnnounces(BITTORRENT_SESSION_KEY("MaxConcurrentHTTPAnnounces"), 75)
+     , m_stopTrackerTimeout(BITTORRENT_SESSION_KEY("StopTrackerTimeout"), 5)
+-    , m_maxConnections(BITTORRENT_SESSION_KEY("MaxConnections"), 500, lowerLimited(0, -1))
+-    , m_maxUploads(BITTORRENT_SESSION_KEY("MaxUploads"), 20, lowerLimited(0, -1))
+-    , m_maxConnectionsPerTorrent(BITTORRENT_SESSION_KEY("MaxConnectionsPerTorrent"), 100, lowerLimited(0, -1))
+-    , m_maxUploadsPerTorrent(BITTORRENT_SESSION_KEY("MaxUploadsPerTorrent"), 4, lowerLimited(0, -1))
+-    , m_btProtocol(BITTORRENT_SESSION_KEY("BTProtocol"), BTProtocol::Both
++    , m_maxConnections(BITTORRENT_SESSION_KEY("MaxConnections"), -1, lowerLimited(0, -1))
++    , m_maxUploads(BITTORRENT_SESSION_KEY("MaxUploads"), -1, lowerLimited(0, -1))
++    , m_maxConnectionsPerTorrent(BITTORRENT_SESSION_KEY("MaxConnectionsPerTorrent"), -1, lowerLimited(0, -1))
++    , m_maxUploadsPerTorrent(BITTORRENT_SESSION_KEY("MaxUploadsPerTorrent"), -1, lowerLimited(0, -1))
++    , m_btProtocol(BITTORRENT_SESSION_KEY("BTProtocol"), BTProtocol::TCP
+         , clampValue(BTProtocol::Both, BTProtocol::UTP))
+     , m_isUTPRateLimited(BITTORRENT_SESSION_KEY("uTPRateLimited"), true)
+     , m_utpMixedMode(BITTORRENT_SESSION_KEY("uTPMixedMode"), MixedModeAlgorithm::TCP
+         , clampValue(MixedModeAlgorithm::TCP, MixedModeAlgorithm::Proportional))
+     , m_IDNSupportEnabled(BITTORRENT_SESSION_KEY("IDNSupportEnabled"), false)
+-    , m_multiConnectionsPerIpEnabled(BITTORRENT_SESSION_KEY("MultiConnectionsPerIp"), false)
++    , m_multiConnectionsPerIpEnabled(BITTORRENT_SESSION_KEY("MultiConnectionsPerIp"), true)
+     , m_validateHTTPSTrackerCertificate(BITTORRENT_SESSION_KEY("ValidateHTTPSTrackerCertificate"), true)
+     , m_blockPeersOnPrivilegedPorts(BITTORRENT_SESSION_KEY("BlockPeersOnPrivilegedPorts"), false)
+     , m_isAddTrackersEnabled(BITTORRENT_SESSION_KEY("AddTrackersEnabled"), false)
+@@ -1221,7 +1221,7 @@
+ 
+     // The most secure, rc4 only so that all streams are encrypted
+     settingsPack.set_int(lt::settings_pack::allowed_enc_level, lt::settings_pack::pe_rc4);
+-    settingsPack.set_bool(lt::settings_pack::prefer_rc4, true);
++    settingsPack.set_bool(lt::settings_pack::prefer_rc4, false);
+     switch (encryption())
+     {
+     case 0: // Enabled
