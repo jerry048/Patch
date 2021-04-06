@@ -1,6 +1,5 @@
-diff -Naur /root/libtorrent/1.2.13/Original/libtorrent-1.2.13/src/settings_pack.cpp /root/libtorrent/1.2.13/New/libtorrent-1.2.13/src/settings_pack.cpp
---- a/src/settings_pack.cpp	
-+++ b/src/settings_pack.cpp	
+--- libtorrent/1.2.13/Original/libtorrent-1.2.13/src/settings_pack.cpp	2021-04-06 09:04:25.105132955 +0200
++++ libtorrent/1.2.13/New/libtorrent-1.2.13/src/settings_pack.cpp	2021-04-06 08:58:21.976874414 +0200
 @@ -130,13 +130,13 @@
  
  	aux::array<bool_setting_entry_t, settings_pack::num_bool_settings> const bool_settings
@@ -174,7 +173,7 @@ diff -Naur /root/libtorrent/1.2.13/Original/libtorrent-1.2.13/src/settings_pack.
  		SET(connections_slack, 10, nullptr),
  		SET(utp_target_delay, 100, nullptr),
  		SET(utp_gain_factor, 3000, nullptr),
-@@ -314,14 +314,14 @@
+@@ -314,19 +314,19 @@
  		SET(utp_connect_timeout, 3000, nullptr),
  		SET(utp_delayed_ack, 0, nullptr),
  		SET(utp_loss_multiplier, 50, nullptr),
@@ -193,8 +192,18 @@ diff -Naur /root/libtorrent/1.2.13/Original/libtorrent-1.2.13/src/settings_pack.
  		SET(aio_threads, 4, &session_impl::update_disk_threads),
  		DEPRECATED_SET(aio_max, 300, nullptr),
  		DEPRECATED_SET(network_threads, 0, nullptr),
-@@ -354,7 +354,7 @@
- 		SET(send_not_sent_low_watermark, 16384, nullptr),
+ 		DEPRECATED_SET(ssl_listen, 0, &session_impl::update_ssl_listen),
+-		SET(tracker_backoff, 250, nullptr),
++		SET(tracker_backoff, 9, nullptr),
+ 		SET(share_ratio_limit, 200, nullptr),
+ 		SET(seed_time_ratio_limit, 700, nullptr),
+ 		SET(peer_turnover, 4, nullptr),
+@@ -351,10 +351,10 @@
+ 		SET(utp_cwnd_reduce_timer, 100, nullptr),
+ 		SET(max_web_seed_connections, 3, nullptr),
+ 		SET(resolver_cache_timeout, 1200, &session_impl::update_resolver_cache_timeout),
+-		SET(send_not_sent_low_watermark, 16384, nullptr),
++		SET(send_not_sent_low_watermark, 983040, nullptr),
  		SET(rate_choker_initial_threshold, 1024, nullptr),
  		SET(upnp_lease_duration, 3600, nullptr),
 -		SET(max_concurrent_http_announces, 50, nullptr),
