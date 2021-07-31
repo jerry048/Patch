@@ -1,5 +1,5 @@
---- Original/libtorrent-2.0.4/src/settings_pack.cpp	2021-07-31 14:58:46.000000000 +0800
-+++ New/libtorrent-2.0.4/src/settings_pack.cpp	2021-07-31 15:17:22.000000000 +0800
+--- a/src/settings_pack.cpp	
++++ b/src/settings_pack.cpp	
 @@ -137,13 +137,13 @@
  	CONSTEXPR_SETTINGS
  	aux::array<bool_setting_entry_t, settings_pack::num_bool_settings> const bool_settings

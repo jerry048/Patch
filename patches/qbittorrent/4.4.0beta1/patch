@@ -1,5 +1,5 @@
---- Original/qBittorrent-release-4.4.0beta1/src/base/bittorrent/session.cpp	2021-06-27 02:05:44.000000000 +0800
-+++ New/qBittorrent-release-4.4.0beta1/src/base/bittorrent/session.cpp	2021-07-31 15:59:46.000000000 +0800
+--- a/src/base/bittorrent/session.cpp	
++++ b/src/base/bittorrent/session.cpp
 @@ -329,20 +329,20 @@
  
  Session::Session(QObject *parent)
