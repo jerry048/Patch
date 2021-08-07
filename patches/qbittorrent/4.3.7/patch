@@ -1,5 +1,5 @@
---- a/src/base/bittorrent/session.cpp	
-+++ b/src/base/bittorrent/session.cpp
+--- session.cpp	2021-08-07 17:47:23.512328487 +0000
++++ session2.cpp	2021-08-07 17:56:52.852845303 +0000
 @@ -349,20 +349,20 @@
  
  Session::Session(QObject *parent)
@@ -19,11 +19,10 @@
 -    , m_asyncIOThreads(BITTORRENT_SESSION_KEY("AsyncIOThreadsCount"), 10)
 +    , m_asyncIOThreads(BITTORRENT_SESSION_KEY("AsyncIOThreadsCount"), 4)
      , m_hashingThreads(BITTORRENT_SESSION_KEY("HashingThreadsCount"), 2)
--    , m_filePoolSize(BITTORRENT_SESSION_KEY("FilePoolSize"), 40)
+     , m_filePoolSize(BITTORRENT_SESSION_KEY("FilePoolSize"), 5000)
 -    , m_checkingMemUsage(BITTORRENT_SESSION_KEY("CheckingMemUsageSize"), 32)
 -    , m_diskCacheSize(BITTORRENT_SESSION_KEY("DiskCacheSize"), -1)
 -    , m_diskCacheTTL(BITTORRENT_SESSION_KEY("DiskCacheTTL"), 60)
-+    , m_filePoolSize(BITTORRENT_SESSION_KEY("FilePoolSize"), 5000)
 +    , m_checkingMemUsage(BITTORRENT_SESSION_KEY("CheckingMemUsageSize"), 128)
 +    , m_diskCacheSize(BITTORRENT_SESSION_KEY("DiskCacheSize"), 3072)
 +    , m_diskCacheTTL(BITTORRENT_SESSION_KEY("DiskCacheTTL"), 300)
