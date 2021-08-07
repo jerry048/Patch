@@ -1,5 +1,5 @@
---- session.cpp	2021-08-07 17:47:23.512328487 +0000
-+++ session2.cpp	2021-08-07 17:56:52.852845303 +0000
+--- a/src/base/bittorrent/session.cpp	
++++ b/src/base/bittorrent/session.cpp
 @@ -349,20 +349,20 @@
  
  Session::Session(QObject *parent)
