@@ -1,5 +1,5 @@
-diff -Naur Original/qBittorrent-release-4.1.9/src/base/bittorrent/session.cpp New/qBittorrent-release-4.1.9/src/base/bittorrent/session.cpp
---- a/src/base/bittorrent/session.cpp	
+diff -Naur Original/qBittorrent-release-4.1.9.1/src/base/bittorrent/session.cpp New/qBittorrent-release-4.1.9.1/src/base/bittorrent/session.cpp
+--- a/src/base/bittorrent/session.cpp
 +++ b/src/base/bittorrent/session.cpp
 @@ -268,18 +268,18 @@
  #if LIBTORRENT_VERSION_NUM >= 10100
@@ -73,6 +73,15 @@ diff -Naur Original/qBittorrent-release-4.1.9/src/base/bittorrent/session.cpp Ne
      , m_isAddTrackersEnabled(BITTORRENT_SESSION_KEY("AddTrackersEnabled"), false)
      , m_additionalTrackers(BITTORRENT_SESSION_KEY("AdditionalTrackers"))
      , m_globalMaxRatio(BITTORRENT_SESSION_KEY("GlobalMaxRatio"), -1, [](qreal r) { return r < 0 ? -1. : r;})
+@@ -325,7 +325,7 @@
+     , m_isCreateTorrentSubfolder(BITTORRENT_SESSION_KEY("CreateTorrentSubfolder"), true)
+     , m_isAppendExtensionEnabled(BITTORRENT_SESSION_KEY("AddExtensionToIncompleteFiles"), false)
+     , m_refreshInterval(BITTORRENT_SESSION_KEY("RefreshInterval"), 1500)
+-    , m_isPreallocationEnabled(BITTORRENT_SESSION_KEY("Preallocation"), false)
++    , m_isPreallocationEnabled(BITTORRENT_SESSION_KEY("Preallocation"), true)
+     , m_torrentExportDirectory(BITTORRENT_SESSION_KEY("TorrentExportDirectory"))
+     , m_finishedTorrentExportDirectory(BITTORRENT_SESSION_KEY("FinishedTorrentExportDirectory"))
+     , m_globalDownloadSpeedLimit(BITTORRENT_SESSION_KEY("GlobalDLSpeedLimit"), 0, lowerLimited(0))
 @@ -336,13 +336,13 @@
      , m_isBandwidthSchedulerEnabled(BITTORRENT_SESSION_KEY("BandwidthSchedulerEnabled"), false)
      , m_saveResumeDataInterval(BITTORRENT_SESSION_KEY("SaveResumeDataInterval"), 60)
@@ -90,7 +99,7 @@ diff -Naur Original/qBittorrent-release-4.1.9/src/base/bittorrent/session.cpp Ne
      , m_isProxyPeerConnectionsEnabled(BITTORRENT_SESSION_KEY("ProxyPeerConnections"), false)
      , m_chokingAlgorithm(BITTORRENT_SESSION_KEY("ChokingAlgorithm"), ChokingAlgorithm::FixedSlots
          , clampValue(ChokingAlgorithm::FixedSlots, ChokingAlgorithm::RateBased))
-@@ -451,12 +451,12 @@
+@@ -451,7 +451,7 @@
      pack.set_int(libt::settings_pack::stop_tracker_timeout, 1);
      pack.set_int(libt::settings_pack::auto_scrape_interval, 1200); // 20 minutes
      pack.set_int(libt::settings_pack::auto_scrape_min_interval, 900); // 15 minutes
@@ -99,12 +108,6 @@ diff -Naur Original/qBittorrent-release-4.1.9/src/base/bittorrent/session.cpp Ne
      pack.set_bool(libt::settings_pack::no_connect_privileged_ports, false);
      // Disk cache pool is rarely tested in libtorrent and doesn't free buffers
      // Soon to be deprecated there
-     // More info: https://github.com/arvidn/libtorrent/issues/2251
--    pack.set_bool(libt::settings_pack::use_disk_cache_pool, false);
-+    pack.set_bool(libt::settings_pack::use_disk_cache_pool, true);
-     // libtorrent 1.1 enables UPnP & NAT-PMP by default
-     // turn them off before `libt::session` ctor to avoid split second effects
-     pack.set_bool(libt::settings_pack::enable_upnp, false);
 @@ -1263,7 +1263,7 @@
  
      // The most secure, rc4 only so that all streams are encrypted
@@ -132,9 +135,9 @@ diff -Naur Original/qBittorrent-release-4.1.9/src/base/bittorrent/session.cpp Ne
      if (useRandomPort())
          return randomPort;
      return m_port;
-diff -Naur Original/qBittorrent-release-4.1.9/src/base/preferences.cpp New/qBittorrent-release-4.1.9/src/base/preferences.cpp
---- a/src/base/preferences.cpp	
-+++ b/src/base/preferences.cpp	
+diff -Naur Original/qBittorrent-release-4.1.9.1/src/base/preferences.cpp New/qBittorrent-release-4.1.9.1/src/base/preferences.cpp
+--- a/src/base/preferences.cpp
++++ b/src/base/preferences.cpp
 @@ -103,7 +103,7 @@
  
  bool Preferences::deleteTorrentFilesAsDefault() const

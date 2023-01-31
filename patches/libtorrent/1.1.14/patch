@@ -1,6 +1,6 @@
-diff -Naur Original/libtorrent-RC_1_1/src/settings_pack.cpp New/libtorrent-RC_1_1/src/settings_pack.cpp
---- a/src/settings_pack.cpp	
-+++ b/src/settings_pack.cpp	
+diff -Naur Original/libtorrent-1.1.14/src/settings_pack.cpp New/libtorrent-1.1.14/src/settings_pack.cpp
+--- a/src/settings_pack.cpp
++++ b/src/settings_pack.cpp
 @@ -154,13 +154,13 @@
  
  	bool_setting_entry_t bool_settings[settings_pack::num_bool_settings] =
@@ -48,12 +48,9 @@ diff -Naur Original/libtorrent-RC_1_1/src/settings_pack.cpp New/libtorrent-RC_1_
  		SET(always_send_user_agent, false, 0),
  		SET(apply_ip_filter_to_trackers, true, 0),
  		SET(use_disk_read_ahead, true, 0),
-@@ -221,12 +221,12 @@
- 		SET(support_merkle_torrents, true, 0),
- 		SET(report_redundant_bytes, true, 0),
+@@ -223,10 +223,10 @@
  		SET_NOPREV(listen_system_port_fallback, true, 0),
--		SET(use_disk_cache_pool, false, 0),
-+		SET(use_disk_cache_pool, true, 0),
+ 		SET(use_disk_cache_pool, false, 0),
  		SET_NOPREV(announce_crypto_support, true, 0),
 -		SET_NOPREV(enable_upnp, true, &session_impl::update_upnp),
 -		SET_NOPREV(enable_natpmp, true, &session_impl::update_natpmp),
