@@ -1,6 +1,6 @@
 diff -Naur Original/qBittorrent-release-4.4.5/src/base/bittorrent/session.cpp New/qBittorrent-release-4.4.5/src/base/bittorrent/session.cpp
---- Original/qBittorrent-release-4.4.5/src/base/bittorrent/session.cpp	2022-08-30 01:40:51.000000000 +0200
-+++ New/qBittorrent-release-4.4.5/src/base/bittorrent/session.cpp	2023-01-30 19:24:19.000000000 +0100
+--- a/src/base/bittorrent/session.cpp
++++ b/src/base/bittorrent/session.cpp
 @@ -319,18 +319,23 @@
  
  Session::Session(QObject *parent)
@@ -110,8 +110,8 @@ diff -Naur Original/qBittorrent-release-4.4.5/src/base/bittorrent/session.cpp Ne
      {
      case 0: // Enabled
 diff -Naur Original/qBittorrent-release-4.4.5/src/base/preferences.cpp New/qBittorrent-release-4.4.5/src/base/preferences.cpp
---- Original/qBittorrent-release-4.4.5/src/base/preferences.cpp	2022-08-30 01:40:51.000000000 +0200
-+++ New/qBittorrent-release-4.4.5/src/base/preferences.cpp	2023-01-30 19:07:32.000000000 +0100
+--- a/src/base/preferences.cpp	2022-08-30 01:40:51.000000000 +0200
++++ b/src/base/preferences.cpp	2023-01-30 19:07:32.000000000 +0100
 @@ -149,7 +149,7 @@
  
  bool Preferences::deleteTorrentFilesAsDefault() const

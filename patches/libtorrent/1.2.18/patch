@@ -1,6 +1,6 @@
 diff -Naur Original/libtorrent-1.2.18/src/settings_pack.cpp New/libtorrent-1.2.18/src/settings_pack.cpp
---- Original/libtorrent-1.2.18/src/settings_pack.cpp	2022-10-23 13:19:28.000000000 +0200
-+++ New/libtorrent-1.2.18/src/settings_pack.cpp	2023-01-30 18:17:51.000000000 +0100
+--- a/src/settings_pack.cpp
++++ b/src/settings_pack.cpp
 @@ -130,13 +130,13 @@
  
  	aux::array<bool_setting_entry_t, settings_pack::num_bool_settings> const bool_settings

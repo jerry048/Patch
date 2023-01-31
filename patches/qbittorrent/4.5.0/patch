@@ -1,6 +1,6 @@
 diff -Naur Original/qBittorrent-release-4.5.0/src/base/bittorrent/sessionimpl.cpp New/qBittorrent-release-4.5.0/src/base/bittorrent/sessionimpl.cpp
---- Original/qBittorrent-release-4.5.0/src/base/bittorrent/sessionimpl.cpp	2022-11-26 22:16:23.000000000 +0100
-+++ New/qBittorrent-release-4.5.0/src/base/bittorrent/sessionimpl.cpp	2023-01-30 19:32:31.000000000 +0100
+--- a/src/base/bittorrent/sessionimpl.cpp	2022-11-26 22:16:23.000000000 +0100
++++ b/src/base/bittorrent/sessionimpl.cpp	2023-01-30 19:32:31.000000000 +0100
 @@ -386,21 +386,25 @@
  
  SessionImpl::SessionImpl(QObject *parent)
