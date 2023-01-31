@@ -1,6 +1,6 @@
 diff -Naur Original/qBittorrent-release-4.5.0/src/base/bittorrent/sessionimpl.cpp New/qBittorrent-release-4.5.0/src/base/bittorrent/sessionimpl.cpp
---- a/src/base/bittorrent/sessionimpl.cpp	2022-11-26 22:16:23.000000000 +0100
-+++ b/src/base/bittorrent/sessionimpl.cpp	2023-01-30 19:32:31.000000000 +0100
+--- a/src/base/bittorrent/sessionimpl.cpp
++++ b/src/base/bittorrent/sessionimpl.cpp
 @@ -386,21 +386,25 @@
  
  SessionImpl::SessionImpl(QObject *parent)
@@ -18,15 +18,14 @@ diff -Naur Original/qBittorrent-release-4.5.0/src/base/bittorrent/sessionimpl.cp
      , m_announceToAllTiers(BITTORRENT_SESSION_KEY(u"AnnounceToAllTiers"_qs), true)
 -    , m_asyncIOThreads(BITTORRENT_SESSION_KEY(u"AsyncIOThreadsCount"_qs), 10)
 -    , m_hashingThreads(BITTORRENT_SESSION_KEY(u"HashingThreadsCount"_qs), 1)
--    , m_filePoolSize(BITTORRENT_SESSION_KEY(u"FilePoolSize"_qs), 5000)
--    , m_checkingMemUsage(BITTORRENT_SESSION_KEY(u"CheckingMemUsageSize"_qs), 32)
 +    , m_asyncIOThreads(BITTORRENT_SESSION_KEY(u"AsyncIOThreadsCount"_qs), 8)
 +    , m_hashingThreads(BITTORRENT_SESSION_KEY(u"HashingThreadsCount"_qs), 2)
-+    #ifdef QBT_USES_LIBTORRENT2
-+    , m_filePoolSize(BITTORRENT_SESSION_KEY("FilePoolSize"), 100)
-+    #else
-+    , m_filePoolSize(BITTORRENT_SESSION_KEY("FilePoolSize"), 5000)
-+    #endif
++#ifdef QBT_USES_LIBTORRENT2
++    , m_filePoolSize(BITTORRENT_SESSION_KEY(u"FilePoolSize"_qs), 100)
++#else
+     , m_filePoolSize(BITTORRENT_SESSION_KEY(u"FilePoolSize"_qs), 5000)
+-    , m_checkingMemUsage(BITTORRENT_SESSION_KEY(u"CheckingMemUsageSize"_qs), 32)
++#endif
 +    , m_checkingMemUsage(BITTORRENT_SESSION_KEY(u"CheckingMemUsageSize"_qs), 256)
      , m_diskCacheSize(BITTORRENT_SESSION_KEY(u"DiskCacheSize"_qs), -1)
 -    , m_diskCacheTTL(BITTORRENT_SESSION_KEY(u"DiskCacheTTL"_qs), 60)
