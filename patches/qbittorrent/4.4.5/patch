@@ -1,7 +1,7 @@
 diff -Naur Original/qBittorrent-release-4.4.5/src/base/bittorrent/session.cpp New/qBittorrent-release-4.4.5/src/base/bittorrent/session.cpp
 --- a/src/base/bittorrent/session.cpp
 +++ b/src/base/bittorrent/session.cpp
-@@ -319,18 +319,23 @@
+@@ -319,18 +319,22 @@
  
  Session::Session(QObject *parent)
      : QObject(parent)
@@ -23,15 +23,14 @@ diff -Naur Original/qBittorrent-release-4.4.5/src/base/bittorrent/session.cpp Ne
 +#ifdef QBT_USES_LIBTORRENT2
 +    , m_filePoolSize(BITTORRENT_SESSION_KEY("FilePoolSize"), 100)
 +#else
-+    , m_filePoolSize(BITTORRENT_SESSION_KEY("FilePoolSize"), 5000)
-+#endif
      , m_filePoolSize(BITTORRENT_SESSION_KEY("FilePoolSize"), 5000)
 -    , m_checkingMemUsage(BITTORRENT_SESSION_KEY("CheckingMemUsageSize"), 32)
++#endif
 +    , m_checkingMemUsage(BITTORRENT_SESSION_KEY("CheckingMemUsageSize"), 256)
      , m_diskCacheSize(BITTORRENT_SESSION_KEY("DiskCacheSize"), -1)
      , m_diskCacheTTL(BITTORRENT_SESSION_KEY("DiskCacheTTL"), 60)
      , m_useOSCache(BITTORRENT_SESSION_KEY("UseOSCache"), true)
-@@ -340,12 +345,12 @@
+@@ -340,12 +344,12 @@
      , m_coalesceReadWriteEnabled(BITTORRENT_SESSION_KEY("CoalesceReadWrite"), false)
  #endif
      , m_usePieceExtentAffinity(BITTORRENT_SESSION_KEY("PieceExtentAffinity"), false)
@@ -50,7 +49,7 @@ diff -Naur Original/qBittorrent-release-4.4.5/src/base/bittorrent/session.cpp Ne
      , m_isAnonymousModeEnabled(BITTORRENT_SESSION_KEY("AnonymousModeEnabled"), false)
      , m_isQueueingEnabled(BITTORRENT_SESSION_KEY("QueueingSystemEnabled"), false)
      , m_maxActiveDownloads(BITTORRENT_SESSION_KEY("MaxActiveDownloads"), 3, lowerLimited(-1))
-@@ -358,24 +363,24 @@
+@@ -358,24 +362,24 @@
      , m_outgoingPortsMin(BITTORRENT_SESSION_KEY("OutgoingPortsMin"), 0)
      , m_outgoingPortsMax(BITTORRENT_SESSION_KEY("OutgoingPortsMax"), 0)
      , m_UPnPLeaseDuration(BITTORRENT_SESSION_KEY("UPnPLeaseDuration"), 0)
@@ -82,7 +81,7 @@ diff -Naur Original/qBittorrent-release-4.4.5/src/base/bittorrent/session.cpp Ne
      , m_validateHTTPSTrackerCertificate(BITTORRENT_SESSION_KEY("ValidateHTTPSTrackerCertificate"), true)
      , m_SSRFMitigationEnabled(BITTORRENT_SESSION_KEY("SSRFMitigation"), true)
      , m_blockPeersOnPrivilegedPorts(BITTORRENT_SESSION_KEY("BlockPeersOnPrivilegedPorts"), false)
-@@ -387,7 +392,7 @@
+@@ -387,7 +391,7 @@
      , m_torrentContentLayout(BITTORRENT_SESSION_KEY("TorrentContentLayout"), TorrentContentLayout::Original)
      , m_isAppendExtensionEnabled(BITTORRENT_SESSION_KEY("AddExtensionToIncompleteFiles"), false)
      , m_refreshInterval(BITTORRENT_SESSION_KEY("RefreshInterval"), 1500)
@@ -91,7 +90,7 @@ diff -Naur Original/qBittorrent-release-4.4.5/src/base/bittorrent/session.cpp Ne
      , m_torrentExportDirectory(BITTORRENT_SESSION_KEY("TorrentExportDirectory"))
      , m_finishedTorrentExportDirectory(BITTORRENT_SESSION_KEY("FinishedTorrentExportDirectory"))
      , m_globalDownloadSpeedLimit(BITTORRENT_SESSION_KEY("GlobalDLSpeedLimit"), 0, lowerLimited(0))
-@@ -444,7 +449,7 @@
+@@ -444,7 +448,7 @@
  #endif
  {
      if (port() < 0)
@@ -100,7 +99,7 @@ diff -Naur Original/qBittorrent-release-4.4.5/src/base/bittorrent/session.cpp Ne
  
      m_recentErroredTorrentsTimer->setSingleShot(true);
      m_recentErroredTorrentsTimer->setInterval(1000);
-@@ -1212,7 +1217,7 @@
+@@ -1212,7 +1216,7 @@
  
      // The most secure, rc4 only so that all streams are encrypted
      settingsPack.set_int(lt::settings_pack::allowed_enc_level, lt::settings_pack::pe_rc4);
@@ -110,8 +109,8 @@ diff -Naur Original/qBittorrent-release-4.4.5/src/base/bittorrent/session.cpp Ne
      {
      case 0: // Enabled
 diff -Naur Original/qBittorrent-release-4.4.5/src/base/preferences.cpp New/qBittorrent-release-4.4.5/src/base/preferences.cpp
---- a/src/base/preferences.cpp	2022-08-30 01:40:51.000000000 +0200
-+++ b/src/base/preferences.cpp	2023-01-30 19:07:32.000000000 +0100
+--- a/src/base/preferences.cpp
++++ b/src/base/preferences.cpp
 @@ -149,7 +149,7 @@
  
  bool Preferences::deleteTorrentFilesAsDefault() const
