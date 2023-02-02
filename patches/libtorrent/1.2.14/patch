@@ -109,7 +109,7 @@
 -		SET(seed_choking_algorithm, settings_pack::round_robin, nullptr),
 -		SET(cache_size, 2048, nullptr),
 +		SET(seed_choking_algorithm, settings_pack::fastest_upload, nullptr),
-+		SET(cache_size, 196608, nullptr),
++		SET(cache_size, -1, nullptr),
  		DEPRECATED_SET(cache_buffer_chunk_size, 0, nullptr),
  		SET(cache_expiry, 300, nullptr),
  		SET(disk_io_write_mode, settings_pack::enable_os_cache, nullptr),
