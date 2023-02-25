@@ -1,6 +1,6 @@
 diff -Naur Original/qBittorrent-release-4.5.1/src/base/bittorrent/sessionimpl.cpp New/qBittorrent-release-4.5.1/src/base/bittorrent/sessionimpl.cpp
---- a/src/base/bittorrent/session.cpp
-+++ b/src/base/bittorrent/session.cpp
+--- a/src/base/bittorrent/sessionimpl.cpp
++++ b/src/base/bittorrent/sessionimpl.cpp
 @@ -386,21 +386,24 @@
  
  SessionImpl::SessionImpl(QObject *parent)
