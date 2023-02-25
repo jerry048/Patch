@@ -1,7 +1,7 @@
 diff -Naur Original/qBittorrent-release-4.4.5/src/base/bittorrent/session.cpp New/qBittorrent-release-4.4.5/src/base/bittorrent/session.cpp
 --- a/src/base/bittorrent/session.cpp
 +++ b/src/base/bittorrent/session.cpp
-@@ -319,20 +319,24 @@
+@@ -319,20 +319,23 @@
  
  Session::Session(QObject *parent)
      : QObject(parent)
@@ -18,22 +18,21 @@ diff -Naur Original/qBittorrent-release-4.4.5/src/base/bittorrent/session.cpp Ne
      , m_announceToAllTiers(BITTORRENT_SESSION_KEY("AnnounceToAllTiers"), true)
 -    , m_asyncIOThreads(BITTORRENT_SESSION_KEY("AsyncIOThreadsCount"), 10)
 -    , m_hashingThreads(BITTORRENT_SESSION_KEY("HashingThreadsCount"), 1)
-+    , m_asyncIOThreads(BITTORRENT_SESSION_KEY("AsyncIOThreadsCount"), 8)
++    , m_asyncIOThreads(BITTORRENT_SESSION_KEY("AsyncIOThreadsCount"), 4)
 +    , m_hashingThreads(BITTORRENT_SESSION_KEY("HashingThreadsCount"), 2)
 +#ifdef QBT_USES_LIBTORRENT2
 +    , m_filePoolSize(BITTORRENT_SESSION_KEY("FilePoolSize"), 100)
 +#else
      , m_filePoolSize(BITTORRENT_SESSION_KEY("FilePoolSize"), 5000)
 -    , m_checkingMemUsage(BITTORRENT_SESSION_KEY("CheckingMemUsageSize"), 32)
-+#endif
-+    , m_checkingMemUsage(BITTORRENT_SESSION_KEY("CheckingMemUsageSize"), 256)
++    , m_checkingMemUsage(BITTORRENT_SESSION_KEY("CheckingMemUsageSize"), 128)
      , m_diskCacheSize(BITTORRENT_SESSION_KEY("DiskCacheSize"), -1)
 -    , m_diskCacheTTL(BITTORRENT_SESSION_KEY("DiskCacheTTL"), 60)
 +    , m_diskCacheTTL(BITTORRENT_SESSION_KEY("DiskCacheTTL"), 300)
      , m_useOSCache(BITTORRENT_SESSION_KEY("UseOSCache"), true)
  #ifdef Q_OS_WIN
      , m_coalesceReadWriteEnabled(BITTORRENT_SESSION_KEY("CoalesceReadWrite"), true)
-@@ -340,12 +344,12 @@
+@@ -340,12 +343,12 @@
      , m_coalesceReadWriteEnabled(BITTORRENT_SESSION_KEY("CoalesceReadWrite"), false)
  #endif
      , m_usePieceExtentAffinity(BITTORRENT_SESSION_KEY("PieceExtentAffinity"), false)
@@ -52,7 +51,7 @@ diff -Naur Original/qBittorrent-release-4.4.5/src/base/bittorrent/session.cpp Ne
      , m_isAnonymousModeEnabled(BITTORRENT_SESSION_KEY("AnonymousModeEnabled"), false)
      , m_isQueueingEnabled(BITTORRENT_SESSION_KEY("QueueingSystemEnabled"), false)
      , m_maxActiveDownloads(BITTORRENT_SESSION_KEY("MaxActiveDownloads"), 3, lowerLimited(-1))
-@@ -358,24 +362,24 @@
+@@ -358,26 +361,26 @@
      , m_outgoingPortsMin(BITTORRENT_SESSION_KEY("OutgoingPortsMin"), 0)
      , m_outgoingPortsMax(BITTORRENT_SESSION_KEY("OutgoingPortsMax"), 0)
      , m_UPnPLeaseDuration(BITTORRENT_SESSION_KEY("UPnPLeaseDuration"), 0)
@@ -61,7 +60,8 @@ diff -Naur Original/qBittorrent-release-4.4.5/src/base/bittorrent/session.cpp Ne
      , m_ignoreLimitsOnLAN(BITTORRENT_SESSION_KEY("IgnoreLimitsOnLAN"), false)
      , m_includeOverheadInLimits(BITTORRENT_SESSION_KEY("IncludeOverheadInLimits"), false)
      , m_announceIP(BITTORRENT_SESSION_KEY("AnnounceIP"))
-     , m_maxConcurrentHTTPAnnounces(BITTORRENT_SESSION_KEY("MaxConcurrentHTTPAnnounces"), 50)
+-    , m_maxConcurrentHTTPAnnounces(BITTORRENT_SESSION_KEY("MaxConcurrentHTTPAnnounces"), 50)
++    , m_maxConcurrentHTTPAnnounces(BITTORRENT_SESSION_KEY("MaxConcurrentHTTPAnnounces"), 75)
      , m_isReannounceWhenAddressChangedEnabled(BITTORRENT_SESSION_KEY("ReannounceWhenAddressChanged"), false)
      , m_stopTrackerTimeout(BITTORRENT_SESSION_KEY("StopTrackerTimeout"), 5)
 -    , m_maxConnections(BITTORRENT_SESSION_KEY("MaxConnections"), 500, lowerLimited(0, -1))
@@ -82,18 +82,12 @@ diff -Naur Original/qBittorrent-release-4.4.5/src/base/bittorrent/session.cpp Ne
 -    , m_multiConnectionsPerIpEnabled(BITTORRENT_SESSION_KEY("MultiConnectionsPerIp"), false)
 +    , m_multiConnectionsPerIpEnabled(BITTORRENT_SESSION_KEY("MultiConnectionsPerIp"), true)
      , m_validateHTTPSTrackerCertificate(BITTORRENT_SESSION_KEY("ValidateHTTPSTrackerCertificate"), true)
-     , m_SSRFMitigationEnabled(BITTORRENT_SESSION_KEY("SSRFMitigation"), true)
+-    , m_SSRFMitigationEnabled(BITTORRENT_SESSION_KEY("SSRFMitigation"), true)
++    , m_SSRFMitigationEnabled(BITTORRENT_SESSION_KEY("SSRFMitigation"), false)
      , m_blockPeersOnPrivilegedPorts(BITTORRENT_SESSION_KEY("BlockPeersOnPrivilegedPorts"), false)
-@@ -387,7 +391,7 @@
-     , m_torrentContentLayout(BITTORRENT_SESSION_KEY("TorrentContentLayout"), TorrentContentLayout::Original)
-     , m_isAppendExtensionEnabled(BITTORRENT_SESSION_KEY("AddExtensionToIncompleteFiles"), false)
-     , m_refreshInterval(BITTORRENT_SESSION_KEY("RefreshInterval"), 1500)
--    , m_isPreallocationEnabled(BITTORRENT_SESSION_KEY("Preallocation"), false)
-+    , m_isPreallocationEnabled(BITTORRENT_SESSION_KEY("Preallocation"), true)
-     , m_torrentExportDirectory(BITTORRENT_SESSION_KEY("TorrentExportDirectory"))
-     , m_finishedTorrentExportDirectory(BITTORRENT_SESSION_KEY("FinishedTorrentExportDirectory"))
-     , m_globalDownloadSpeedLimit(BITTORRENT_SESSION_KEY("GlobalDLSpeedLimit"), 0, lowerLimited(0))
-@@ -444,7 +448,7 @@
+     , m_isAddTrackersEnabled(BITTORRENT_SESSION_KEY("AddTrackersEnabled"), false)
+     , m_additionalTrackers(BITTORRENT_SESSION_KEY("AdditionalTrackers"))
+@@ -444,7 +447,7 @@
  #endif
  {
      if (port() < 0)
@@ -102,33 +96,3 @@ diff -Naur Original/qBittorrent-release-4.4.5/src/base/bittorrent/session.cpp Ne
  
      m_recentErroredTorrentsTimer->setSingleShot(true);
      m_recentErroredTorrentsTimer->setInterval(1000);
-@@ -1212,7 +1216,7 @@
- 
-     // The most secure, rc4 only so that all streams are encrypted
-     settingsPack.set_int(lt::settings_pack::allowed_enc_level, lt::settings_pack::pe_rc4);
--    settingsPack.set_bool(lt::settings_pack::prefer_rc4, true);
-+    settingsPack.set_bool(lt::settings_pack::prefer_rc4, false);
-     switch (encryption())
-     {
-     case 0: // Enabled
-diff -Naur Original/qBittorrent-release-4.4.5/src/base/preferences.cpp New/qBittorrent-release-4.4.5/src/base/preferences.cpp
---- a/src/base/preferences.cpp
-+++ b/src/base/preferences.cpp
-@@ -149,7 +149,7 @@
- 
- bool Preferences::deleteTorrentFilesAsDefault() const
- {
--    return value("Preferences/General/DeleteTorrentsFilesAsDefault", false);
-+    return value("Preferences/General/DeleteTorrentsFilesAsDefault", true);
- }
- 
- void Preferences::setDeleteTorrentFilesAsDefault(const bool del)
-@@ -169,7 +169,7 @@
- 
- bool Preferences::speedInTitleBar() const
- {
--    return value("Preferences/General/SpeedInTitleBar", false);
-+    return value("Preferences/General/SpeedInTitleBar", true);
- }
- 
- void Preferences::showSpeedInTitleBar(const bool show)
