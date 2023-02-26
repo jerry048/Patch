@@ -1,6 +1,6 @@
 diff -Naur Original/libtorrent-1.2.18/src/settings_pack.cpp New/libtorrent-1.2.18/src/settings_pack.cpp
---- a/src/settings_pack.cpp
-+++ b/src/settings_pack.cpp
+--- Original/src/settings_pack.cpp
++++ New/src/settings_pack.cpp
 @@ -130,13 +130,13 @@
  
  	aux::array<bool_setting_entry_t, settings_pack::num_bool_settings> const bool_settings
@@ -55,15 +55,6 @@ diff -Naur Original/libtorrent-1.2.18/src/settings_pack.cpp New/libtorrent-1.2.1
  		SET(prefer_rc4, false, nullptr),
  		SET(proxy_hostnames, true, nullptr),
  		SET(proxy_peer_connections, true, nullptr),
-@@ -211,7 +211,7 @@
- 		SET(dht_prefer_verified_node_ids, true, &session_impl::update_dht_settings),
- 		SET(piece_extent_affinity, false, nullptr),
- 		SET(validate_https_trackers, true, &session_impl::update_validate_https),
--		SET(ssrf_mitigation, true, nullptr),
-+		SET(ssrf_mitigation, false, nullptr),
- 		SET(allow_idna, false, nullptr),
- 	}});
- 
 @@ -221,50 +221,50 @@
  		SET(tracker_receive_timeout, 10, nullptr),
  		SET(stop_tracker_timeout, 5, nullptr),
