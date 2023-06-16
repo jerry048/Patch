@@ -1,7 +1,7 @@
 diff -Naur Original/qBittorrent-release-4.6.0alpha1/src/base/bittorrent/sessionimpl.cpp New/qBittorrent-release-4.6.0alpha1/src/base/bittorrent/sessionimpl.cpp
 --- Original/src/base/bittorrent/sessionimpl.cpp
 +++ New/src/base/bittorrent/sessionimpl.cpp
-@@ -407,21 +407,24 @@
+@@ -407,21 +407,25 @@
  
  SessionImpl::SessionImpl(QObject *parent)
      : Session(parent)
@@ -26,6 +26,7 @@ diff -Naur Original/qBittorrent-release-4.6.0alpha1/src/base/bittorrent/sessioni
 +    , m_filePoolSize(BITTORRENT_SESSION_KEY(u"FilePoolSize"_qs), 100)
 +#else
 +    , m_filePoolSize(BITTORRENT_SESSION_KEY(u"FilePoolSize"_qs), 5000)
++#endif
 +    , m_checkingMemUsage(BITTORRENT_SESSION_KEY(u"CheckingMemUsageSize"_qs), 128)
      , m_diskCacheSize(BITTORRENT_SESSION_KEY(u"DiskCacheSize"_qs), -1)
 -    , m_diskCacheTTL(BITTORRENT_SESSION_KEY(u"DiskCacheTTL"_qs), 60)
@@ -35,7 +36,7 @@ diff -Naur Original/qBittorrent-release-4.6.0alpha1/src/base/bittorrent/sessioni
      , m_diskIOType(BITTORRENT_SESSION_KEY(u"DiskIOType"_qs), DiskIOType::Default)
      , m_diskIOReadMode(BITTORRENT_SESSION_KEY(u"DiskIOReadMode"_qs), DiskIOReadMode::EnableOSCache)
      , m_diskIOWriteMode(BITTORRENT_SESSION_KEY(u"DiskIOWriteMode"_qs), DiskIOWriteMode::EnableOSCache)
-@@ -431,14 +434,14 @@
+@@ -431,14 +435,14 @@
      , m_coalesceReadWriteEnabled(BITTORRENT_SESSION_KEY(u"CoalesceReadWrite"_qs), false)
  #endif
      , m_usePieceExtentAffinity(BITTORRENT_SESSION_KEY(u"PieceExtentAffinity"_qs), false)
@@ -56,7 +57,7 @@ diff -Naur Original/qBittorrent-release-4.6.0alpha1/src/base/bittorrent/sessioni
      , m_isAnonymousModeEnabled(BITTORRENT_SESSION_KEY(u"AnonymousModeEnabled"_qs), false)
      , m_isQueueingEnabled(BITTORRENT_SESSION_KEY(u"QueueingSystemEnabled"_qs), false)
      , m_maxActiveDownloads(BITTORRENT_SESSION_KEY(u"MaxActiveDownloads"_qs), 3, lowerLimited(-1))
-@@ -451,24 +454,24 @@
+@@ -451,24 +455,24 @@
      , m_outgoingPortsMin(BITTORRENT_SESSION_KEY(u"OutgoingPortsMin"_qs), 0)
      , m_outgoingPortsMax(BITTORRENT_SESSION_KEY(u"OutgoingPortsMax"_qs), 0)
      , m_UPnPLeaseDuration(BITTORRENT_SESSION_KEY(u"UPnPLeaseDuration"_qs), 0)
@@ -89,7 +90,7 @@ diff -Naur Original/qBittorrent-release-4.6.0alpha1/src/base/bittorrent/sessioni
      , m_validateHTTPSTrackerCertificate(BITTORRENT_SESSION_KEY(u"ValidateHTTPSTrackerCertificate"_qs), true)
      , m_SSRFMitigationEnabled(BITTORRENT_SESSION_KEY(u"SSRFMitigation"_qs), true)
      , m_blockPeersOnPrivilegedPorts(BITTORRENT_SESSION_KEY(u"BlockPeersOnPrivilegedPorts"_qs), false)
-@@ -519,7 +522,7 @@
+@@ -519,7 +523,7 @@
      , m_peerTurnover(BITTORRENT_SESSION_KEY(u"PeerTurnover"_qs), 4)
      , m_peerTurnoverCutoff(BITTORRENT_SESSION_KEY(u"PeerTurnoverCutOff"_qs), 90)
      , m_peerTurnoverInterval(BITTORRENT_SESSION_KEY(u"PeerTurnoverInterval"_qs), 300)
@@ -98,7 +99,7 @@ diff -Naur Original/qBittorrent-release-4.6.0alpha1/src/base/bittorrent/sessioni
      , m_isExcludedFileNamesEnabled(BITTORRENT_KEY(u"ExcludedFileNamesEnabled"_qs), false)
      , m_excludedFileNames(BITTORRENT_SESSION_KEY(u"ExcludedFileNames"_qs))
      , m_bannedIPs(u"State/BannedIPs"_qs, QStringList(), Algorithm::sorted<QStringList>)
-@@ -541,7 +544,7 @@
+@@ -541,7 +545,7 @@
      m_asyncWorker->setMaxThreadCount(1);
  
      if (port() < 0)
@@ -107,7 +108,7 @@ diff -Naur Original/qBittorrent-release-4.6.0alpha1/src/base/bittorrent/sessioni
  
      m_recentErroredTorrentsTimer->setSingleShot(true);
      m_recentErroredTorrentsTimer->setInterval(1s);
-@@ -1646,7 +1649,7 @@
+@@ -1646,7 +1650,7 @@
  
      // The most secure, rc4 only so that all streams are encrypted
      settingsPack.set_int(lt::settings_pack::allowed_enc_level, lt::settings_pack::pe_rc4);
