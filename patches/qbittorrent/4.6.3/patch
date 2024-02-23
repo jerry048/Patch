@@ -18,14 +18,13 @@ diff -Naur qBittorrent/Original/qBittorrent-release-4.6.3/src/base/bittorrent/se
      , m_announceToAllTiers(BITTORRENT_SESSION_KEY(u"AnnounceToAllTiers"_s), true)
 -    , m_asyncIOThreads(BITTORRENT_SESSION_KEY(u"AsyncIOThreadsCount"_s), 10)
 -    , m_hashingThreads(BITTORRENT_SESSION_KEY(u"HashingThreadsCount"_s), 1)
--    , m_filePoolSize(BITTORRENT_SESSION_KEY(u"FilePoolSize"_s), 100)
--    , m_checkingMemUsage(BITTORRENT_SESSION_KEY(u"CheckingMemUsageSize"_s), 32)
 +    , m_asyncIOThreads(BITTORRENT_SESSION_KEY(u"AsyncIOThreadsCount"_s), 4)
 +    , m_hashingThreads(BITTORRENT_SESSION_KEY(u"HashingThreadsCount"_s), 2)
 +#ifdef QBT_USES_LIBTORRENT2
-+    , m_filePoolSize(BITTORRENT_SESSION_KEY(u"FilePoolSize"_qs), 100)
+     , m_filePoolSize(BITTORRENT_SESSION_KEY(u"FilePoolSize"_s), 100)
+-    , m_checkingMemUsage(BITTORRENT_SESSION_KEY(u"CheckingMemUsageSize"_s), 32)
 +#else
-+    , m_filePoolSize(BITTORRENT_SESSION_KEY(u"FilePoolSize"_qs), 5000)
++    , m_filePoolSize(BITTORRENT_SESSION_KEY(u"FilePoolSize"_s), 5000)
 +#endif
 +    , m_checkingMemUsage(BITTORRENT_SESSION_KEY(u"CheckingMemUsageSize"_s), 128)
      , m_diskCacheSize(BITTORRENT_SESSION_KEY(u"DiskCacheSize"_s), -1)
