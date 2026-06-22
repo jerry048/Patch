@@ -1,113 +1,88 @@
-diff -Naur Original/qBittorrent-release-4.5.2/src/base/bittorrent/sessionimpl.cpp New/qBittorrent-release-4.5.2/src/base/bittorrent/sessionimpl.cpp
---- Original/qBittorrent-release-4.5.2/src/base/bittorrent/sessionimpl.cpp
-+++ New/qBittorrent-release-4.5.2/src/base/bittorrent/sessionimpl.cpp
-@@ -1,16 +1,20 @@
- SessionImpl::SessionImpl(QObject *parent) : Session(parent)
+diff --git a/src/base/bittorrent/sessionimpl.cpp b/src/base/bittorrent/sessionimpl.cpp
+--- a/src/base/bittorrent/sessionimpl.cpp
++++ b/src/base/bittorrent/sessionimpl.cpp
+@@ -1 +1 @@
 -    , m_isDHTEnabled(BITTORRENT_SESSION_KEY(u"DHTEnabled"_qs), true)
--    , m_isLSDEnabled(BITTORRENT_SESSION_KEY(u"LSDEnabled"_qs), true)
--    , m_isPeXEnabled(BITTORRENT_SESSION_KEY(u"PeXEnabled"_qs), true)
 +    , m_isDHTEnabled(BITTORRENT_SESSION_KEY(u"DHTEnabled"_qs), false)
+@@ -1 +1 @@
+-    , m_isLSDEnabled(BITTORRENT_SESSION_KEY(u"LSDEnabled"_qs), true)
 +    , m_isLSDEnabled(BITTORRENT_SESSION_KEY(u"LSDEnabled"_qs), false)
+@@ -1 +1 @@
+-    , m_isPeXEnabled(BITTORRENT_SESSION_KEY(u"PeXEnabled"_qs), true)
 +    , m_isPeXEnabled(BITTORRENT_SESSION_KEY(u"PeXEnabled"_qs), false)
-     , m_isIPFilteringEnabled(BITTORRENT_SESSION_KEY(u"IPFilteringEnabled"_qs), false)
-     , m_isTrackerFilteringEnabled(BITTORRENT_SESSION_KEY(u"TrackerFilteringEnabled"_qs), false)
-     , m_IPFilterFile(BITTORRENT_SESSION_KEY(u"IPFilter"_qs))
-     , m_announceToAllTrackers(BITTORRENT_SESSION_KEY(u"AnnounceToAllTrackers"_qs), false)
-     , m_announceToAllTiers(BITTORRENT_SESSION_KEY(u"AnnounceToAllTiers"_qs), true)
+@@ -1 +1 @@
 -    , m_asyncIOThreads(BITTORRENT_SESSION_KEY(u"AsyncIOThreadsCount"_qs), 10)
--    , m_hashingThreads(BITTORRENT_SESSION_KEY(u"HashingThreadsCount"_qs), 1)
 +    , m_asyncIOThreads(BITTORRENT_SESSION_KEY(u"AsyncIOThreadsCount"_qs), 4)
+@@ -1 +1 @@
+-    , m_hashingThreads(BITTORRENT_SESSION_KEY(u"HashingThreadsCount"_qs), 1)
 +    , m_hashingThreads(BITTORRENT_SESSION_KEY(u"HashingThreadsCount"_qs), 2)
+@@ -1 +1,5 @@
+-    , m_filePoolSize(BITTORRENT_SESSION_KEY(u"FilePoolSize"_qs), 5000)
 +#ifdef QBT_USES_LIBTORRENT2
 +    , m_filePoolSize(BITTORRENT_SESSION_KEY(u"FilePoolSize"_qs), 100)
 +#else
-     , m_filePoolSize(BITTORRENT_SESSION_KEY(u"FilePoolSize"_qs), 5000)
--    , m_checkingMemUsage(BITTORRENT_SESSION_KEY(u"CheckingMemUsageSize"_qs), 32)
++    , m_filePoolSize(BITTORRENT_SESSION_KEY(u"FilePoolSize"_qs), 5000)
 +#endif
+@@ -1 +1 @@
+-    , m_checkingMemUsage(BITTORRENT_SESSION_KEY(u"CheckingMemUsageSize"_qs), 32)
 +    , m_checkingMemUsage(BITTORRENT_SESSION_KEY(u"CheckingMemUsageSize"_qs), 128)
-     , m_diskCacheSize(BITTORRENT_SESSION_KEY(u"DiskCacheSize"_qs), -1)
+@@ -1 +1 @@
 -    , m_diskCacheTTL(BITTORRENT_SESSION_KEY(u"DiskCacheTTL"_qs), 60)
--    , m_diskQueueSize(BITTORRENT_SESSION_KEY(u"DiskQueueSize"_qs), (1024 * 1024))
 +    , m_diskCacheTTL(BITTORRENT_SESSION_KEY(u"DiskCacheTTL"_qs), 300)
+@@ -1 +1 @@
+-    , m_diskQueueSize(BITTORRENT_SESSION_KEY(u"DiskQueueSize"_qs), (1024 * 1024))
 +    , m_diskQueueSize(BITTORRENT_SESSION_KEY(u"DiskQueueSize"_qs), (10 * 1024 * 1024))
-diff -Naur Original/qBittorrent-release-4.5.2/src/base/bittorrent/sessionimpl.cpp New/qBittorrent-release-4.5.2/src/base/bittorrent/sessionimpl.cpp
---- Original/qBittorrent-release-4.5.2/src/base/bittorrent/sessionimpl.cpp
-+++ New/qBittorrent-release-4.5.2/src/base/bittorrent/sessionimpl.cpp
-@@ -1,7 +1,7 @@
-     , m_usePieceExtentAffinity(BITTORRENT_SESSION_KEY(u"PieceExtentAffinity"_qs), false)
+@@ -1 +1 @@
 -    , m_isSuggestMode(BITTORRENT_SESSION_KEY(u"SuggestMode"_qs), false)
--    , m_sendBufferWatermark(BITTORRENT_SESSION_KEY(u"SendBufferWatermark"_qs), 500)
--    , m_sendBufferLowWatermark(BITTORRENT_SESSION_KEY(u"SendBufferLowWatermark"_qs), 10)
--    , m_sendBufferWatermarkFactor(BITTORRENT_SESSION_KEY(u"SendBufferWatermarkFactor"_qs), 50)
--    , m_connectionSpeed(BITTORRENT_SESSION_KEY(u"ConnectionSpeed"_qs), 30)
--    , m_socketBacklogSize(BITTORRENT_SESSION_KEY(u"SocketBacklogSize"_qs), 30)
 +    , m_isSuggestMode(BITTORRENT_SESSION_KEY(u"SuggestMode"_qs), true)
+@@ -1 +1 @@
+-    , m_sendBufferWatermark(BITTORRENT_SESSION_KEY(u"SendBufferWatermark"_qs), 500)
 +    , m_sendBufferWatermark(BITTORRENT_SESSION_KEY(u"SendBufferWatermark"_qs), 10240)
+@@ -1 +1 @@
+-    , m_sendBufferLowWatermark(BITTORRENT_SESSION_KEY(u"SendBufferLowWatermark"_qs), 10)
 +    , m_sendBufferLowWatermark(BITTORRENT_SESSION_KEY(u"SendBufferLowWatermark"_qs), 3072)
+@@ -1 +1 @@
+-    , m_sendBufferWatermarkFactor(BITTORRENT_SESSION_KEY(u"SendBufferWatermarkFactor"_qs), 50)
 +    , m_sendBufferWatermarkFactor(BITTORRENT_SESSION_KEY(u"SendBufferWatermarkFactor"_qs), 200)
+@@ -1 +1 @@
+-    , m_connectionSpeed(BITTORRENT_SESSION_KEY(u"ConnectionSpeed"_qs), 30)
 +    , m_connectionSpeed(BITTORRENT_SESSION_KEY(u"ConnectionSpeed"_qs), 500)
+@@ -1 +1 @@
+-    , m_socketBacklogSize(BITTORRENT_SESSION_KEY(u"SocketBacklogSize"_qs), 30)
 +    , m_socketBacklogSize(BITTORRENT_SESSION_KEY(u"SocketBacklogSize"_qs), 30000)
-diff -Naur Original/qBittorrent-release-4.5.2/src/base/bittorrent/sessionimpl.cpp New/qBittorrent-release-4.5.2/src/base/bittorrent/sessionimpl.cpp
---- Original/qBittorrent-release-4.5.2/src/base/bittorrent/sessionimpl.cpp
-+++ New/qBittorrent-release-4.5.2/src/base/bittorrent/sessionimpl.cpp
-@@ -1,19 +1,19 @@
-     , m_UPnPLeaseDuration(BITTORRENT_SESSION_KEY(u"UPnPLeaseDuration"_qs), 0)
+@@ -1 +1 @@
 -    , m_peerToS(BITTORRENT_SESSION_KEY(u"PeerToS"_qs), 0x04)
 +    , m_peerToS(BITTORRENT_SESSION_KEY(u"PeerToS"_qs), 0xB8)
-     , m_ignoreLimitsOnLAN(BITTORRENT_SESSION_KEY(u"IgnoreLimitsOnLAN"_qs), false)
-     , m_includeOverheadInLimits(BITTORRENT_SESSION_KEY(u"IncludeOverheadInLimits"_qs), false)
-     , m_announceIP(BITTORRENT_SESSION_KEY(u"AnnounceIP"_qs))
+@@ -1 +1 @@
 -    , m_maxConcurrentHTTPAnnounces(BITTORRENT_SESSION_KEY(u"MaxConcurrentHTTPAnnounces"_qs), 50)
 +    , m_maxConcurrentHTTPAnnounces(BITTORRENT_SESSION_KEY(u"MaxConcurrentHTTPAnnounces"_qs), 75)
-     , m_isReannounceWhenAddressChangedEnabled(BITTORRENT_SESSION_KEY(u"ReannounceWhenAddressChanged"_qs), false)
-     , m_stopTrackerTimeout(BITTORRENT_SESSION_KEY(u"StopTrackerTimeout"_qs), 5)
+@@ -1 +1 @@
 -    , m_maxConnections(BITTORRENT_SESSION_KEY(u"MaxConnections"_qs), 500, lowerLimited(0, -1))
--    , m_maxUploads(BITTORRENT_SESSION_KEY(u"MaxUploads"_qs), 20, lowerLimited(0, -1))
--    , m_maxConnectionsPerTorrent(BITTORRENT_SESSION_KEY(u"MaxConnectionsPerTorrent"_qs), 100, lowerLimited(0, -1))
--    , m_maxUploadsPerTorrent(BITTORRENT_SESSION_KEY(u"MaxUploadsPerTorrent"_qs), 4, lowerLimited(0, -1))
--    , m_btProtocol(BITTORRENT_SESSION_KEY(u"BTProtocol"_qs), BTProtocol::Both
 +    , m_maxConnections(BITTORRENT_SESSION_KEY(u"MaxConnections"_qs), -1, lowerLimited(0, -1))
+@@ -1 +1 @@
+-    , m_maxUploads(BITTORRENT_SESSION_KEY(u"MaxUploads"_qs), 20, lowerLimited(0, -1))
 +    , m_maxUploads(BITTORRENT_SESSION_KEY(u"MaxUploads"_qs), -1, lowerLimited(0, -1))
+@@ -1 +1 @@
+-    , m_maxConnectionsPerTorrent(BITTORRENT_SESSION_KEY(u"MaxConnectionsPerTorrent"_qs), 100, lowerLimited(0, -1))
 +    , m_maxConnectionsPerTorrent(BITTORRENT_SESSION_KEY(u"MaxConnectionsPerTorrent"_qs), -1, lowerLimited(0, -1))
+@@ -1 +1 @@
+-    , m_maxUploadsPerTorrent(BITTORRENT_SESSION_KEY(u"MaxUploadsPerTorrent"_qs), 4, lowerLimited(0, -1))
 +    , m_maxUploadsPerTorrent(BITTORRENT_SESSION_KEY(u"MaxUploadsPerTorrent"_qs), -1, lowerLimited(0, -1))
+@@ -1 +1 @@
+-    , m_btProtocol(BITTORRENT_SESSION_KEY(u"BTProtocol"_qs), BTProtocol::Both
 +    , m_btProtocol(BITTORRENT_SESSION_KEY(u"BTProtocol"_qs), BTProtocol::TCP
-         , clampValue(BTProtocol::Both, BTProtocol::UTP))
-     , m_isUTPRateLimited(BITTORRENT_SESSION_KEY(u"uTPRateLimited"_qs), true)
-     , m_utpMixedMode(BITTORRENT_SESSION_KEY(u"uTPMixedMode"_qs), MixedModeAlgorithm::TCP
-         , clampValue(MixedModeAlgorithm::TCP, MixedModeAlgorithm::Proportional))
-     , m_IDNSupportEnabled(BITTORRENT_SESSION_KEY(u"IDNSupportEnabled"_qs), false)
+@@ -1 +1 @@
 -    , m_multiConnectionsPerIpEnabled(BITTORRENT_SESSION_KEY(u"MultiConnectionsPerIp"_qs), false)
 +    , m_multiConnectionsPerIpEnabled(BITTORRENT_SESSION_KEY(u"MultiConnectionsPerIp"_qs), true)
-diff -Naur Original/qBittorrent-release-4.5.2/src/base/bittorrent/sessionimpl.cpp New/qBittorrent-release-4.5.2/src/base/bittorrent/sessionimpl.cpp
---- Original/qBittorrent-release-4.5.2/src/base/bittorrent/sessionimpl.cpp
-+++ New/qBittorrent-release-4.5.2/src/base/bittorrent/sessionimpl.cpp
-@@ -1,4 +1,4 @@
-     , m_peerTurnover(BITTORRENT_SESSION_KEY(u"PeerTurnover"_qs), 4)
-     , m_peerTurnoverCutoff(BITTORRENT_SESSION_KEY(u"PeerTurnoverCutOff"_qs), 90)
-     , m_peerTurnoverInterval(BITTORRENT_SESSION_KEY(u"PeerTurnoverInterval"_qs), 300)
+@@ -1 +1 @@
 -    , m_requestQueueSize(BITTORRENT_SESSION_KEY(u"RequestQueueSize"_qs), 500)
 +    , m_requestQueueSize(BITTORRENT_SESSION_KEY(u"RequestQueueSize"_qs), 10000)
-diff -Naur Original/qBittorrent-release-4.5.2/src/base/bittorrent/sessionimpl.cpp New/qBittorrent-release-4.5.2/src/base/bittorrent/sessionimpl.cpp
---- Original/qBittorrent-release-4.5.2/src/base/bittorrent/sessionimpl.cpp
-+++ New/qBittorrent-release-4.5.2/src/base/bittorrent/sessionimpl.cpp
-@@ -1,2 +1,2 @@
-     if (port() < 0)
--        m_port = Utils::Random::rand(1024, 65535);
-+        m_port = Utils::Random::rand(15000, 65535);
-diff -Naur Original/qBittorrent-release-4.5.2/src/base/bittorrent/sessionimpl.cpp New/qBittorrent-release-4.5.2/src/base/bittorrent/sessionimpl.cpp
---- Original/qBittorrent-release-4.5.2/src/base/bittorrent/sessionimpl.cpp
-+++ New/qBittorrent-release-4.5.2/src/base/bittorrent/sessionimpl.cpp
-@@ -1,3 +1,3 @@
-     // The most secure, rc4 only so that all streams are encrypted
-     settingsPack.set_int(lt::settings_pack::allowed_enc_level, lt::settings_pack::pe_rc4);
--    settingsPack.set_bool(lt::settings_pack::prefer_rc4, true);
-+    settingsPack.set_bool(lt::settings_pack::prefer_rc4, false);
-diff -Naur Original/qBittorrent-release-4.5.2/src/base/preferences.cpp New/qBittorrent-release-4.5.2/src/base/preferences.cpp
---- Original/qBittorrent-release-4.5.2/src/base/preferences.cpp
-+++ New/qBittorrent-release-4.5.2/src/base/preferences.cpp
-@@ -1,4 +1,4 @@
- bool Preferences::isWebUiCSRFProtectionEnabled() const
- {
+@@ -1 +1 @@
+-    m_port = Utils::Random::rand(1024, 65535);
++    m_port = Utils::Random::rand(15000, 65535);
+diff --git a/src/base/preferences.cpp b/src/base/preferences.cpp
+--- a/src/base/preferences.cpp
++++ b/src/base/preferences.cpp
+@@ -1 +1 @@
 -    return value(u"Preferences/WebUI/CSRFProtection"_qs, true);
 +    return value(u"Preferences/WebUI/CSRFProtection"_qs, false);
- }
