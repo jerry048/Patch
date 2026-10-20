@@ -64,19 +64,6 @@ uses the renamed `WebUI/CSRFProtection` key; 5.2.4 uses
 
 ### Validation
 
-With clean upstream Git checkouts named `libtorrent-2.0.15`, `libtorrent-2.1.2`,
-`qbittorrent-5.2.4` and `qbittorrent-5.3.0` under one source directory, run:
-
-```sh
-python tests/validate_patches.py /absolute/path/to/source-directory
-```
-
-The test checks the release tags, applies/reverse-checks all four patches in
-temporary repositories, verifies all 50 libtorrent tuning values, and statically
-compares qBittorrent defaults against both libtorrent versions. It also rejects
-unreviewed assignments to patched settings. Source checkouts are not modified.
-Use `--scratch-dir PATH` to choose where temporary test repositories are created.
-
-Validation covers patch application and source-level default alignment, **not
-compilation or runtime performance**. In particular, checking defaults for all
+The patches were checked for clean application and source-level default
+alignment, **not compilation or runtime performance**. Checking defaults for all
 four version combinations does not prove upstream API/build compatibility.

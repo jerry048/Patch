@@ -3,4 +3,3 @@ patches/libtorrent/2.0.15/patch text eol=lf
 patches/libtorrent/2.1.2/patch text eol=lf
 patches/qbittorrent/5.2.4/patch text eol=lf
 patches/qbittorrent/5.3.0/patch text eol=lf
-tests/*.py text eol=lf
